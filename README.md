@@ -4,6 +4,7 @@ Simple media manager for your Laravel project
 # Requirements
 - PHP >= 5.6.4
 - jQuery >= 1.12
+- Dropzone.js
 - Laravel 5
 
 # Tested
