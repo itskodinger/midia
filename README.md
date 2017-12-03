@@ -19,7 +19,7 @@ This package is still available for development only, not ready for production m
 
 1. Create a new folder `packages/nauvalazhar`
 2. Clone this package inside `packages/nauvalazhar`
-3. Add manually in the `autoload` key in your the `composer.json` file.
+3. Add these lines manually in the `autoload` key in your `composer.json` file
 ```
 "psr-4": {
     "Nauvalazhar\\Midia\\": "packages/nauvalazhar/midia/src/"
@@ -42,10 +42,10 @@ This package is still available for development only, not ready for production m
 ```
 
 # Integration
-# TinyMCE 3
+### TinyMCE 3
 Need testing
 
-# TinyMCE 4
+### TinyMCE 4
 ```
 <textarea class="tinymce"></textarea>
 <script>
@@ -80,10 +80,10 @@ Need testing
 	  tinymce.init(editor_config);
 </script>
 ```
-# CKEditor
+### CKEditor
 Need testing
 
-# Standalone Button
+### Standalone Button
 ```
 <input type="text" id="my-file">
 <button class="midia-toggle">Select File</button>
