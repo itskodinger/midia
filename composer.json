@@ -1,0 +1,21 @@
+{
+    "name": "nauvalazhar/midia",
+    "description": "Simple Media manager for your Laravel project",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Muhamad Nauval Azhar",
+            "email": "nauvalazhar2@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "classmap": [
+            "src"
+        ],
+        "psr-4": {
+            "Nauvalazhar\\Midia\\": "src/"
+        }
+    }
+}
