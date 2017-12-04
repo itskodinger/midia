@@ -9,7 +9,7 @@
 </head>
 <body>
 	<input type="text" id="midia-input">
-	<button class="midia-toggle" data-target="midia-input">Pick</button>
+	<button class="midia-toggle" data-input="midia-input">Pick</button>
 
 	<textarea class="tinymce"></textarea>
 
@@ -19,7 +19,11 @@
 	<script src="{{asset('vendor/midia/midia.js')}}"></script>
 	<script>
 		$(".midia-toggle").midia({
-			base_url: '{{url('')}}'
+			base_url: '{{url('')}}',
+			dropzone: {
+				url: 'aaa',
+				maxFilesize: 4
+			}
 		});
 
 	  var editor_config = {

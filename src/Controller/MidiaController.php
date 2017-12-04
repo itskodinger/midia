@@ -23,14 +23,25 @@ class MidiaController extends Controller {
 
 		$exec = scandir($dir);
 		$exec = array_splice($exec, 2);
+
+		$files = [];
+		foreach($exec as $file) {
+			$files[$file] = filemtime($dir . '/' . $file);
+		}
+
+		arsort($files);
+		$files = array_keys($files);
+		$exec = $files;
+
 		$_files = [];
 		foreach($exec as $i => $item) {
 			if(!is_dir($this->directory . '/' . $item)) {			
 				$_files[$i]['fullname'] = $item;
 				$_files[$i]['name'] = pathinfo($item, PATHINFO_FILENAME);
+				$_files[$i]['url'] = url($this->directory_name . '/' . $item);
 				$_files[$i]['extension'] = pathinfo($item,PATHINFO_EXTENSION);
 				$_files[$i]['size'] = $this->toMb(filesize($this->directory . '/' . $item));
-				$_files[$i]['url'] = url($this->directory_name . '/' . urlencode($item));
+				$_files[$i]['filetime'] = filemtime($this->directory . '/' . $item);
 			}
 		}
 
@@ -46,13 +57,10 @@ class MidiaController extends Controller {
 	}
 
 	public function toMb($bytes) {
-        $units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
-
-        for ($i = 0; $bytes > 1024; $i++) {
-            $bytes /= 1024;
-        }
-
-        return round($bytes, 2) . ' ' . $units[$i];
+		for ($i=0;$bytes>=1024&&$i<5;$i++)
+			$bytes/=1024;
+		
+		return round($bytes,2).[' B',' KB',' MB',' GB',' TB',' PB'][$i];
 	}
 
 	public function open($editor) {
@@ -66,10 +74,41 @@ class MidiaController extends Controller {
 	}
 
 	public function upload(Request $request) {
-        $image = $request->file('file');
-        $imageName = $image->getClientOriginalName();
-        $image->move($this->directory, $imageName);
-        return response()->json(['success'=>$imageName]);
+        $file = $request->file('file');
+        $fileName = $file->getClientOriginalName();
+    	$wo_extension = basename($fileName, "." . $file->getClientOriginalExtension());
+
+        $inc = 1;
+        while(file_exists($this->directory . '/' . $fileName)) {
+        	$name = $wo_extension . '-' . $inc;
+        	$fileName = $name . '.' . $file->getClientOriginalExtension();
+        	$inc++;
+        }
+        $file->move($this->directory, $fileName);
+        return response()->json(['success'=>$fileName]);
+	}
+
+	public function rename(Request $request, $file) {
+		$fileName = $request->newName;
+    	$wo_extension = pathinfo($fileName, PATHINFO_FILENAME);
+    	$_extension = explode(".", $fileName);
+    	$extension = end($_extension);
+
+        $inc = 1;
+        while(file_exists($this->directory . '/' . $fileName)) {
+        	$name = $wo_extension . '-' . $inc;
+        	$fileName = $name . '.' . $extension;
+        	$inc++;
+        }
+
+		rename($this->directory . '/' . $file, $this->directory . '/' . $fileName);
+
+		$new_data = [];
+		$new_data['fullname'] = $fileName;
+		$new_data['name'] = pathinfo($fileName, PATHINFO_FILENAME);
+		$new_data['url'] = url($this->directory_name . '/' . $fileName);
+
+        return response()->json(['success'=>$new_data]);
 	}
 
 	public function demo() {
