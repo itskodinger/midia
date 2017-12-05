@@ -2,12 +2,13 @@
 	$.fn.midia = function(options) {
 		var options = $.extend({
 			title: 'Midia',
-			paragraph: 'Click an item below to select the file',
+			paragraph: 'Press F2 (or double-click) on the item to rename the file.',
 			inline: false,
 			editor: false,
 			base_url: '',
 			file_name: '',
 			data_target: 'input',
+			csrf_field: $("meta[name='csrf-token']").attr('content'),
 			dropzone: {},
 			onOpen: function() {},
 			onOpened: function() {},
@@ -16,7 +17,8 @@
 		}, options);
 
 		this.each(function() {
-			let me = $(this);
+			let me = $(this),
+				csrf_field = options.csrf_field;
 
 			$(document).on("click", ".midia-close", function() {
 				midia.close();
@@ -37,6 +39,9 @@
 					$.ajax({
 						url: options.base_url + '/midia/'+_this.closest('.midia-item').data('file').fullname+'/delete',
 						type: 'delete',
+						headers: {				
+							'X-CSRF-TOKEN': csrf_field
+						},
 						dataType: 'json',
 						beforeSend: function() {
 							$(".midia-delete").addClass('midia-disabled');
@@ -84,6 +89,9 @@
 							element += '			<a href="#" class="midia-close">Close</a>';
 												}
 						element += '		</div>';
+						element += ' 		<div class="midia-input-outer">';
+						element += '			<input type="text" id="midia-search" class="midia-input" placeholder="Search and hit Enter (Escape to clear)">';
+						element += '		</div>';
 						element += '	</div>';
 						element += '	<div class="midia-body">';
 						element += '		<div class="midia-upload">';
@@ -117,9 +125,16 @@
 						delete default_dropzone_options.url;
 					}
 
+					if(typeof default_dropzone_options.headers !== 'undefined') {
+						delete default_dropzone_options.headers;
+					}
+
 					var dropzone_options = default_dropzone_options;
 					dropzone_options = $.extend({
 						url: options.base_url + '/midia/upload',
+						headers: {
+							'X-CSRF-TOKEN': csrf_field
+						},
 						maxFilesize: 2
 					}, default_dropzone_options);
 
@@ -132,6 +147,8 @@
 						if(!$(".midia-upload").hasClass("midia-active")) {
 							$(".midia-upload").addClass("midia-active");
 							$(".midia-loader").hide();
+							$("#midia-search").hide();
+							$("#midia-reload").hide();
 							$(".midia-upload").show();
 							_this.html('Back');						
 						}else{
@@ -139,6 +156,8 @@
 							$(".midia-upload").removeClass("midia-active");
 							$(".midia-upload").hide();
 							$(".midia-loader").show();
+							$("#midia-search").show();
+							$("#midia-reload").show();
 							$(".midia-loader #midia-files-loader").html("");
 							limit = 0;
 							showing = 0;
@@ -150,21 +169,40 @@
 
 					var load_files = function(success) {
 						limit += 1;
-						var loader = $("#midia-files-loader");
+						var loader = $("#midia-files-loader"),
+							key = $("#midia-search").val();
+
 						$.ajax({
-							url: options.base_url + '/midia/get/' + limit,
+							url: options.base_url + '/midia/get/' + limit + '?key=' + key,
 							dataType: 'json',
+							headers: {				
+								'X-CSRF-TOKEN': csrf_field
+							},
 							beforeSend: function() {
 								$(".midia-files").append('<div class="midia-loading"><img src="'+options.base_url+'/vendor/midia/spinner.svg"><div>Please wait</div></div>');
 								$("#midia-loadmore").hide();
+								if(key) {
+									$("#midia-search").attr('disabled', true);
+								}
 							},
 							error: function(xhr) {
 								alert('ERROR: ' + xhr.status + ' - ' + xhr.responseJSON.data);
 							},
 							complete: function() {
 								$(".midia-loading").remove();
+								if(key) {
+									$("#midia-search").attr('disabled', false);
+								}
 							},
 							success: function(data) {
+								$("#midia-loadmore").show();
+
+								if(showing == 0 && data.files.length == 0) {
+									loader.html("<div class='midia-notfound'>Whoops, file with name <i>'"+key+"'</i> couldn't be found</div>");
+								}
+
+								showing += data.files.length;
+
 								if(success) {
 									success.call(this);
 								}
@@ -177,7 +215,10 @@
 									return;
 								}
 
-								showing += data.files.length;
+								if(data.files.length == data.total || showing == data.total) {
+									$("#midia-loadmore").hide();
+								}
+
 								$("#midia-total").html(showing + " of " + data.total);
 								var file = "";
 								$.each(data.files, function(i, item) {
@@ -203,12 +244,28 @@
 									file += "</div>";
 									file += "</div>";
 								});
-								$("#midia-loadmore").show();
 								loader.append(file);
 							}
 						});
 					}
 					load_files();
+
+					$(document).on("keydown", "#midia-search", function(e) {
+						if(e.key == 'Enter') {
+							$(".midia-loader #midia-files-loader").html("");
+							limit = 0;
+							showing = 0;
+							load_files(false);
+						}
+
+						if(e.key == 'Escape') {
+							$(this).val("");
+							$(".midia-loader #midia-files-loader").html("");
+							limit = 0;
+							showing = 0;
+							load_files(false);							
+						}
+					});
 
 					$(document).on("click", "#midia-reload", function() {
 						$(".midia-loader #midia-files-loader").html("");
@@ -217,45 +274,52 @@
 						load_files();
 					});
 
+					var rename_file = function() {
+						if($(".midia-selected").length) {
+							let rename = prompt('Rename this file to:', $(".midia-selected").data('file').name);
+							if(rename && rename !== $(".midia-selected").data('file').name) {								
+								$.ajax({
+									url: options.base_url + '/midia/'+$(".midia-selected").data('file').fullname+'/rename',
+									type: 'put',
+									data: {
+										newName: rename + "." + $(".midia-selected").data('file').extension
+									},
+									dataType: 'json',
+									headers: {				
+										'X-CSRF-TOKEN': csrf_field
+									},
+									beforeSend: function() {
+										$(".midia-selected").addClass('midia-doload');
+										$(".midia-choose").addClass('midia-disabled');
+										$(".midia-delete").addClass('midia-disabled');
+									},
+									error: function(xhr) {
+										alert('ERROR: ' + xhr.status + ' - ' + xhr.responseText);
+									},
+									complete: function() {
+										$(".midia-selected").removeClass('midia-doload');
+										$(".midia-choose").removeClass('midia-disabled');
+										$(".midia-delete").removeClass('midia-disabled');
+									},
+									success: function(data) {
+										data = data.success;
+										$(".midia-selected .midia-name").html(data.fullname);
+										var new_data = data;
+										new_data = $.extend($(".midia-selected").data('file'), data);
+										$(".midia-selected").attr('data-file', new_data);
+									}
+								});
+							}
+						}
+					}
+
 					$(document).on("keydown", function(e) {
 						if(e.key == 'Escape') {
 							$(".midia-files .midia-item").removeClass("midia-unselected").removeClass("midia-selected");
 						}
 
 						if(e.key == 'F2') {
-							if($(".midia-selected").length) {
-								let rename = prompt('Rename this file to:', $(".midia-selected").data('file').name);
-								if(rename && rename !== $(".midia-selected").data('file').name) {								
-									$.ajax({
-										url: options.base_url + '/midia/'+$(".midia-selected").data('file').fullname+'/rename',
-										type: 'put',
-										data: {
-											newName: rename + "." + $(".midia-selected").data('file').extension
-										},
-										dataType: 'json',
-										beforeSend: function() {
-											$(".midia-selected").addClass('midia-doload');
-											$(".midia-choose").addClass('midia-disabled');
-											$(".midia-delete").addClass('midia-disabled');
-										},
-										error: function(xhr) {
-											alert('ERROR: ' + xhr.status + ' - ' + xhr.responseText);
-										},
-										complete: function() {
-											$(".midia-selected").removeClass('midia-doload');
-											$(".midia-choose").removeClass('midia-disabled');
-											$(".midia-delete").removeClass('midia-disabled');
-										},
-										success: function(data) {
-											data = data.success;
-											$(".midia-selected .midia-name").html(data.fullname);
-											var new_data = data;
-											new_data = $.extend($(".midia-selected").data('file'), data);
-											$(".midia-selected").attr('data-file', new_data);
-										}
-									});
-								}
-							}
+							rename_file();
 						}
 					});
 
@@ -271,6 +335,11 @@
 						}else{
 							_this.addClass("midia-selected");
 						}
+					});
+
+					$(document).on("dblclick", ".midia-files .midia-item .midia-item-inner", function() {
+						rename_file();
+						return false;
 					});
 
 					var getUrlParam = function(paramName) {

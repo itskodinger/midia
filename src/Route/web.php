@@ -1,5 +1,5 @@
 <?php
-Route::group(['prefix' => config('midia.prefix', 'midia')], function() {
+Route::group(['prefix' => config('midia.prefix', 'midia'), 'middleware' => 'web'], function() {
 	Route::get('open/{editor?}', 'Nauvalazhar\Midia\Controller\MidiaController@open')->name('midia.open');
 	Route::get('get/{limit?}', 'Nauvalazhar\Midia\Controller\MidiaController@index')->name('midia.get');
 	Route::delete('{file}/delete', 'Nauvalazhar\Midia\Controller\MidiaController@delete')->name('midia.delete');

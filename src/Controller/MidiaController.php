@@ -16,6 +16,7 @@ class MidiaController extends Controller {
 
 	public function index($limit) {
 		$dir = $this->directory;
+		$q = request()->key;
 
 		if(!is_dir($dir)) {
 			return response(['data' => 'Directory can\'t be found'], 404);
@@ -45,12 +46,24 @@ class MidiaController extends Controller {
 			}
 		}
 
+		$total_all = count($_files);
+
+		if(isset($q) && trim($q) !== '') {
+			$_search = [];
+			foreach($_files as $key => $file) {
+				if(strpos($file['fullname'], $q) !== false) {
+					$_search[$key] = $file;
+				}
+			}
+			$_files = $_search;
+		}
+
 		$page = $limit;
 		$perPage = 20;
 		$offset = ($page * $perPage) - $perPage;
 
 		$exec = array_slice($_files, $offset, $perPage);
-		$dir = json_encode(["files" => $exec, "total" => count($_files)]);
+		$dir = json_encode(["files" => $exec, "total" => count($_files), "total_all" => $total_all]);
 
 		return response($dir, 200)
 		->header('Content-Type', 'application/json');
