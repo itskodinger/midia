@@ -23,7 +23,7 @@ Simple media manager for your Laravel project. This package lets you open your f
 - [ ] Laravel 5.1 
 - [ ] Laravel 5.0 
 
-~~ # Installation (Development Mode)
+~~# Installation (Development Mode)
 This package is still available for development only, not ready for production mode 'cause as it has to do testing to find some bugs and compatibility.
 1. Create a new folder `packages/nauvalazhar`
 2. Clone this package inside `packages/nauvalazhar`
