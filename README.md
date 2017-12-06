@@ -1,5 +1,13 @@
-# Midia
-Simple media manager for your Laravel project
+# Midia (Beta)
+Simple media manager for your Laravel project. This package lets you open your files as inline modal.
+
+# Features
+- Fully responsive
+- Read, rename, delete file
+- Infinite scroll
+- Search
+- Upload multiple
+- More ...
 
 # Requirements
 - PHP >= 5.6.4
@@ -15,9 +23,8 @@ Simple media manager for your Laravel project
 - [ ] Laravel 5.1 
 - [ ] Laravel 5.0 
 
-# Installation (Development Mode)
+~~ # Installation (Development Mode)
 This package is still available for development only, not ready for production mode 'cause as it has to do testing to find some bugs and compatibility.
-
 1. Create a new folder `packages/nauvalazhar`
 2. Clone this package inside `packages/nauvalazhar`
 3. Add these lines manually in the `autoload` key in your `composer.json` file
@@ -27,7 +34,16 @@ This package is still available for development only, not ready for production m
 },
 ```
 4. Run `composer dump-autoload`
-5. Done
+5. Done~~
+
+Now, this package is available for production but still beta, need further testing. You can install this package using these steps.
+1. Run `composer require nauvalazhar/midia`
+2. Put this line into `config/app.php` in the `providers`
+```
+        Nauvalazhar\Midia\MidiaServiceProvider::class,
+```
+3. Done
+
 
 # Usage
 1. Run `php artisan vendor:publish --tag=midia`
@@ -43,8 +59,9 @@ This package is still available for development only, not ready for production m
 ```
 
 # Integration
-### TinyMCE 3
-Need testing
+Here we have documented how to use it with TinyMCE 4 and as a stand-alone button. But, you can also try it yourself to be integrated with other editors like: CKEditor, Summernote, etc.
+
+If you successfully integrate with other editors, then you can either create `issue` or change the `readme.md` file to document how you do it.
 
 ### TinyMCE 4
 ```
@@ -81,9 +98,6 @@ Need testing
 	  tinymce.init(editor_config);
 </script>
 ```
-### CKEditor
-Need testing
-
 ### Standalone Button
 ```
 <input type="text" id="my-file">
