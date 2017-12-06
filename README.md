@@ -23,19 +23,7 @@ Simple media manager for your Laravel project. This package lets you open your f
 - [ ] Laravel 5.1 
 - [ ] Laravel 5.0 
 
-~~# Installation (Development Mode)
-This package is still available for development only, not ready for production mode 'cause as it has to do testing to find some bugs and compatibility.
-1. Create a new folder `packages/nauvalazhar`
-2. Clone this package inside `packages/nauvalazhar`
-3. Add these lines manually in the `autoload` key in your `composer.json` file
-```
-"psr-4": {
-    "Nauvalazhar\\Midia\\": "packages/nauvalazhar/midia/src/"
-},
-```
-4. Run `composer dump-autoload`
-5. Done~~
-
+# Installation
 Now, this package is available for production but still beta, need further testing. You can install this package using these steps.
 1. Run `composer require nauvalazhar/midia`
 2. Put this line into `config/app.php` in the `providers`
