@@ -26,7 +26,7 @@ Simple media manager for your Laravel project. This package lets you open your f
 # Installation
 Now, this package is available for production but still beta, need further testing. You can install this package using these steps.
 1. Run `composer require nauvalazhar/midia`
-2. Put this line into `config/app.php` in the `providers`
+2. Put this line into `config/app.php` in the `providers` key
 ```php
         Nauvalazhar\Midia\MidiaServiceProvider::class,
 ```
@@ -34,12 +34,16 @@ Now, this package is available for production but still beta, need further testi
 
 # Usage
 1. Run `php artisan vendor:publish --tag=midia`
-2. Add these lines before the `</head>` tag
+2. Put this code in the `<head>` tag
+```html
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+```
+3. Add these lines before the `</head>` tag
 ```html
 	<link rel="stylesheet" href="{{asset('vendor/midia/midia.css')}}">
 	<link rel="stylesheet" href="{{asset('vendor/midia/dropzone.css')}}">
 ```
-3. Make sure you've included jQuery before and put these lines after jQuery
+4. Make sure you've included jQuery before and put these lines after jQuery
 ```html
 	<script src="{{asset('vendor/midia/dropzone.js')}}"></script>
 	<script src="{{asset('vendor/midia/midia.js')}}"></script>
@@ -90,7 +94,7 @@ If you successfully integrate with other editors, then you can either create `is
 ### Standalone Button
 ```html
 <input type="text" id="my-file">
-<button class="midia-toggle">Select File</button>
+<button class="midia-toggle" data-input="my-file">Select File</button>
 
 <script>
 	$(".midia-toggle").midia({
