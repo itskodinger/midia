@@ -16,7 +16,7 @@ Simple media manager for your Laravel project. This package lets you open your f
 - Laravel 5
 
 # Tested
-- [ ] Laravel 5.5
+- [x] Laravel 5.5
 - [x] Laravel 5.4 
 - [ ] Laravel 5.3 
 - [ ] Laravel 5.2 
@@ -27,24 +27,25 @@ Simple media manager for your Laravel project. This package lets you open your f
 Now, this package is available for production but still beta, need further testing. You can install this package using these steps.
 1. Run `composer require nauvalazhar/midia`
 2. Put this line into `config/app.php` in the `providers`
-```
+```php
         Nauvalazhar\Midia\MidiaServiceProvider::class,
 ```
 3. Done
 
-
 # Usage
 1. Run `php artisan vendor:publish --tag=midia`
 2. Add these lines before the `</head>` tag
-```
+```html
 	<link rel="stylesheet" href="{{asset('vendor/midia/midia.css')}}">
 	<link rel="stylesheet" href="{{asset('vendor/midia/dropzone.css')}}">
 ```
-3. Add these lines before the `</body>` tag
-```
+3. Make sure you've included jQuery before and put these lines after jQuery
+```html
 	<script src="{{asset('vendor/midia/dropzone.js')}}"></script>
 	<script src="{{asset('vendor/midia/midia.js')}}"></script>
 ```
+
+**Note:** Default, all files that are read and uploaded will be stored in the `storage/media` folder, you can change the location of the folders you want in `config/midia.php`.
 
 # Integration
 Here we have documented how to use it with TinyMCE 4 and as a stand-alone button. But, you can also try it yourself to be integrated with other editors like: CKEditor, Summernote, etc.
@@ -52,7 +53,7 @@ Here we have documented how to use it with TinyMCE 4 and as a stand-alone button
 If you successfully integrate with other editors, then you can either create `issue` or change the `readme.md` file to document how you do it.
 
 ### TinyMCE 4
-```
+```html
 <textarea class="tinymce"></textarea>
 <script>
 	  var editor_config = {
@@ -87,7 +88,7 @@ If you successfully integrate with other editors, then you can either create `is
 </script>
 ```
 ### Standalone Button
-```
+```html
 <input type="text" id="my-file">
 <button class="midia-toggle">Select File</button>
 
