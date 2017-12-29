@@ -21,6 +21,7 @@ class MidiaServiceProvider extends ServiceProvider
             __DIR__ . '/Public/midia.js' => public_path('vendor/midia/midia.js'),
             __DIR__ . '/Public/midia.css' => public_path('vendor/midia/midia.css'),
             __DIR__ . '/Public/dropzone.js' => public_path('vendor/midia/dropzone.js'),
+            __DIR__ . '/Public/jquery.js' => public_path('vendor/midia/jquery.js'),
             __DIR__ . '/Public/dropzone.css' => public_path('vendor/midia/dropzone.css'),
             __DIR__ . '/Public/spinner.svg' => public_path('vendor/midia/spinner.svg')
         ], 'midia');

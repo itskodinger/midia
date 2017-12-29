@@ -239,9 +239,11 @@
 									file += item.size;
 									file += "</div>";
 									file += "<div class='midia-actions'>";
-									file += "<div class='midia-action-item midia-choose'>";
-									file += 'Choose';
-									file += "</div>";
+									if(options.inline != true || (options.inline == true && options.editor != false)) {									
+										file += "<div class='midia-action-item midia-choose'>";
+										file += 'Choose';
+										file += "</div>";
+									}
 									file += "<div class='midia-action-item midia-delete'>";
 									file += 'Delete';
 									file += "</div>";

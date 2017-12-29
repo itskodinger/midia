@@ -11,7 +11,7 @@
 	<body>
 		<div id="midia-inline"></div>
 
-		<script src="{{asset('assets/js/app.js')}}"></script>
+		<script src="{{asset('vendor/midia/jquery.js')}}"></script>
 		<script src="{{asset('vendor/midia/dropzone.js')}}"></script>
 		<script src="{{asset('vendor/midia/midia.js')}}"></script>
 		<script>
