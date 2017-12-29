@@ -1,4 +1,4 @@
-# Midia (Beta)
+# Midia
 Simple media manager for your Laravel project. This package lets you open your files as inline modal.
 
 # Features
@@ -24,7 +24,7 @@ Simple media manager for your Laravel project. This package lets you open your f
 - [ ] Laravel 5.0 
 
 # Installation
-Now, this package is available for production but still beta, need further testing. You can install this package using these steps.
+Now, this package is available for production. You can install this package using these steps.
 1. Run `composer require nauvalazhar/midia`
 2. Put this line into `config/app.php` in the `providers` key
 ```php
@@ -49,7 +49,7 @@ Now, this package is available for production but still beta, need further testi
 	<script src="{{asset('vendor/midia/midia.js')}}"></script>
 ```
 
-**Note:** Default, all files that are read and uploaded will be stored in the `storage/media` folder, you can change the location of the folders you want in `config/midia.php`.
+**Note:** Default, all files that are read and uploaded will be stored in the `storage/media` folder, so create a folder named `media` in the `storage` folder if you have not already created it or you can change the location of the folders you want in `config/midia.php`.
 
 # Integration
 Here we have documented how to use it with TinyMCE 4 and as a stand-alone button. But, you can also try it yourself to be integrated with other editors like: CKEditor, Summernote, etc.
@@ -102,3 +102,47 @@ If you successfully integrate with other editors, then you can either create `is
 	});
 </script>
 ```
+You can also use the configuration in `.midia()`. The following is the default configuration:
+```javascript
+{
+	title: 'Midia',
+	paragraph: 'Press F2 (or double-click) on the item to rename the file.',
+	inline: false, // if you want to open the media manager as an inline element
+	base_url: '', // base url of your project
+	file_name: '', // set to 'url' if you want to give full URL when choosing file
+	data_target: 'input', // selector attribute for target file input
+	data_preview: 'preview', // selector attribute for target file preview
+	csrf_field: $("meta[name='csrf-token']").attr('content'), // your CSRF field
+	dropzone: {}, // you can provide other dropzone options
+	onOpen: function() {}, // method when the media manager will be opened
+	onOpened: function() {}, // method when the media manager is opened
+	onClose: function() {}, // method when the media manager is closed
+	onChoose: function() {} // method when the media manager choose File
+}
+```
+
+# Open The File
+To open a file in the browser, you can do it easily like this:
+```
+http://yourdomain.com/media/filename.extension
+```
+For example:
+```
+http://yourdomain.com/media/image.png
+```
+**Note:** You can change the `media` prefix in the `config/midia.php` file
+	
+# Configuration
+You can change the default configuration in the `config/midia.php` file.
+```php
+<?php
+return [
+	// Target diirectory
+	'directory' => storage_path('media'),
+	// For URL (e.g: http://base/media/filename.ext)
+	'directory_name' => 'media',
+	'prefix' => 'midia'
+];```
+
+# License
+MIT License
