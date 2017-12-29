@@ -142,7 +142,8 @@ return [
 	// For URL (e.g: http://base/media/filename.ext)
 	'directory_name' => 'media',
 	'prefix' => 'midia'
-];```
+];
+```
 
 # License
 MIT License
