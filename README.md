@@ -109,7 +109,9 @@ You can also use the configuration in `.midia()`. The following is the default c
 	paragraph: 'Press F2 (or double-click) on the item to rename the file.',
 	inline: false, // if you want to open the media manager as an inline element
 	base_url: '', // base url of your project
-	file_name: '', // set to 'url' if you want to give full URL when choosing file
+	file_name: '', // set to 'url' if you want to give full URL when choosing file,
+	directory = '', // set to {{ config('home_directory') }} for example.
+	directory_name = '', // set to {{ config('home_directory_name') }} for example.
 	data_target: 'input', // selector attribute for target file input
 	data_preview: 'preview', // selector attribute for target file preview
 	csrf_field: $("meta[name='csrf-token']").attr('content'), // your CSRF field
@@ -141,7 +143,9 @@ return [
 	'directory' => storage_path('media'),
 	// For URL (e.g: http://base/media/filename.ext)
 	'directory_name' => 'media',
-	'prefix' => 'midia'
+	'prefix' => 'midia',
+	'home_directory => storage_path('media/site/home'),
+	'home_directory_name => 'media/site/home',
 ];
 ```
 
