@@ -7,15 +7,33 @@ Route::group(['prefix' => config('midia.prefix', 'midia'), 'middleware' => 'web'
 	Route::post('upload', 'Nauvalazhar\Midia\Controller\MidiaController@upload')->name('midia.upload');
 });
 
-Route::get(config('midia.directory_name', 'media') . '/{filename}', function ($filename) {
-  $path = storage_path() . '/media/' . $filename;
-  if(!File::exists($path)) return abort(404);
+Route::group(['prefix' => config('midia.url_prefix', 'media')], function() {
+  Route::get('/{filename}', function ($filename) {
+    $path = pathinfo($filename);
 
-  $file = File::get($path);
-  $type = File::mimeType($path);
+    if($path['dirname'] !== '.' && ($path['dirname'] !== config('midia.directory_name'))) {
+      foreach(config('midia.directories') as $d) {
+        if($d['name'] == $path['dirname']) {
+          $path = $d['path'] . '/' . $path['basename'];
+          break;
+        }
+      }
 
-  $response = Response::make($file, 200);
-  $response->header("Content-Type", $type);
+      if(is_array($path)) {
+        $path = '';
+      }
+    }else{
+      $path = config('midia.directory') . '/' . $filename;
+    }
 
-  return $response;
-})->where('filename','(.*)');
+    if(!File::exists($path)) return config('midia.404')();
+
+    $file = File::get($path);
+    $type = File::mimeType($path);
+
+    $response = Response::make($file, 200);
+    $response->header("Content-Type", $type);
+
+    return $response;
+  })->where('filename','(.*)');
+});

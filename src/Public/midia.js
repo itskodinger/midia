@@ -10,7 +10,6 @@
             data_target: 'input',
             data_preview: 'preview',
             csrf_field: $("meta[name='csrf-token']").attr('content'),
-            directory: '',
             directory_name: '',
             dropzone: {},
             onOpen: function() {},
@@ -40,14 +39,6 @@
                     var isDirNameEmpty = options.directory_name === '';
                     if (!isDirNameEmpty) {
                         url += '?directory_name=' + options.directory_name;
-                    }
-                    if (options.directory !== '') {
-                        if (isDirNameEmpty) {
-                            url += '?';
-                        } else {
-                            url += '&';
-                        }
-                        url += 'directory=' + options.directory;
                     }
 
                     return url;
@@ -98,34 +89,34 @@
                     var element = '<div class="midia-wrapper'+(options.inline ? ' midia-inline' :'')+'">';
                     element += '<div class="midia-modal">';
                     element += '<div class="midia-content">';
-                    element += '	<div class="midia-header">';
-                    element += '		<div class="midia-title">';
-                    element += '			<h4>'+options.title+'</h4>';
-                    element += '			<p>'+options.paragraph+'</p>';
-                    element += '		</div>';
-                    element += '		<div class="midia-nav">';
-                    element += '			<a id="midia-total">...</a>';
-                    element += '			<a href="#" id="midia-upload">Upload</a>';
-                    element += '			<a href="#" id="midia-reload">Reload</a>';
+                    element += '    <div class="midia-header">';
+                    element += '        <div class="midia-title">';
+                    element += '            <h4>'+options.title+'</h4>';
+                    element += '            <p>'+options.paragraph+'</p>';
+                    element += '        </div>';
+                    element += '        <div class="midia-nav">';
+                    element += '            <a id="midia-total">...</a>';
+                    element += '            <a href="#" id="midia-upload">Upload</a>';
+                    element += '            <a href="#" id="midia-reload">Reload</a>';
                     if(!options.inline) {
-                        element += '			<a href="#" class="midia-close">Close</a>';
+                        element += '            <a href="#" class="midia-close">Close</a>';
                     }
-                    element += '		</div>';
-                    element += ' 		<div class="midia-input-outer">';
-                    element += '			<input type="text" id="midia-search" class="midia-input" placeholder="Search and hit Enter (Escape to clear)">';
-                    element += '		</div>';
-                    element += '	</div>';
-                    element += '	<div class="midia-body">';
-                    element += '		<div class="midia-upload">';
-                    element += '			<form class="dropzone" method="post" id="midia-dropzone" enctype="multipart/form-data">';
-                    element += '			</form>';
-                    element += '		</div>';
-                    element += '		<div class="midia-loader">';
-                    element += '			<div id="midia-files-loader" class="midia-files">';
-                    element += '			</div>';
-                    element += '			<div class="midia-outer-loadmore"><div class="midia-btn midia-btn-primary" id="midia-loadmore">Load More</div></div>';
-                    element += '		</div>';
-                    element += '	</div>';
+                    element += '        </div>';
+                    element += '        <div class="midia-input-outer">';
+                    element += '            <input type="text" id="midia-search" class="midia-input" placeholder="Search and hit Enter (Escape to clear)">';
+                    element += '        </div>';
+                    element += '    </div>';
+                    element += '    <div class="midia-body">';
+                    element += '        <div class="midia-upload">';
+                    element += '            <form class="dropzone" method="post" id="midia-dropzone" enctype="multipart/form-data">';
+                    element += '            </form>';
+                    element += '        </div>';
+                    element += '        <div class="midia-loader">';
+                    element += '            <div id="midia-files-loader" class="midia-files">';
+                    element += '            </div>';
+                    element += '            <div class="midia-outer-loadmore"><div class="midia-btn midia-btn-primary" id="midia-loadmore">Load More</div></div>';
+                    element += '        </div>';
+                    element += '    </div>';
                     element += '</div>';
                     element += "</div>";
                     element += "</div>";
@@ -156,14 +147,6 @@
                         var isDirNameEmpty = options.directory_name === '';
                         if (!isDirNameEmpty) {
                             url += '?directory_name=' + options.directory_name;
-                        }
-                        if (options.directory !== '') {
-                            if (isDirNameEmpty) {
-                                url += '?';
-                            } else {
-                                url += '&';
-                            }
-                            url += 'directory=' + options.directory;
                         }
 
                         return url;
@@ -212,9 +195,6 @@
                         var url = options.base_url + '/midia/get/' + limit + '?key=' + key;
                         if (options.directory_name !== '') {
                             url += '&directory_name=' + options.directory_name;
-                        }
-                        if (options.directory !== '') {
-                            url += '&directory=' + options.directory;
                         }
 
                         return url;
@@ -338,14 +318,6 @@
                         var isDirNameEmpty = options.directory_name === '';
                         if (!isDirNameEmpty) {
                             url += '?directory_name=' + options.directory_name;
-                        }
-                        if (options.directory !== '') {
-                            if (isDirNameEmpty) {
-                                url += '?';
-                            } else {
-                                url += '&';
-                            }
-                            url += 'directory=' + options.directory;
                         }
 
                         return url;

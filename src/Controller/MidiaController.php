@@ -8,20 +8,38 @@ use File;
 class MidiaController extends Controller {
     protected $directory;
     protected $directory_name;
+    protected $url_prefix;
 
     public function __construct() {
-        if (request()->has('directory')) {
-            $directory = request()->get('directory', null);
-        }
+        $this->url_prefix = config('midia.url_prefix');
+
         if (request()->has('directory_name')) {
             $directoryName = request()->get('directory_name', null);
         }
-        $this->directory = !empty($directory)
-            ? $directory
-            : config('midia.directory', storage_path('media'));
-        $this->directory_name = !empty($directoryName)
-            ? $directoryName
-            : config('midia.directory_name', 'media');
+
+        if(isset($directoryName)) {
+            $currentDirectory = config('midia.directories.' . $directoryName, null);
+    
+            if($currentDirectory == null) {
+                return response(['data' => 'Directory \'' . $currentDirectory['name'] . '\' can\'t be found'], 404);
+            }
+
+            $this->directory = $currentDirectory['path'];
+            $this->directory_name = $currentDirectory['name'];
+        }else{
+            $this->directory = config('midia.directory');
+            $this->directory_name = config('midia.directory_name');            
+        }
+
+        if($this->url_prefix == $this->directory_name) {
+            $this->url_prefix = '';
+        }
+
+        $this->url_prefix .= '/';
+    }
+
+    public function url($path='') {
+        return url($this->url_prefix . $path);
     }
 
     public function index($limit) {
@@ -29,7 +47,7 @@ class MidiaController extends Controller {
         $q = request()->key;
 
         if(!is_dir($dir)) {
-            return response(['data' => 'Directory can\'t be found'], 404);
+            return response(['data' => 'Directory \''. $dir .'\' can\'t be found'], 404);
         }
 
         $exec = scandir($dir);
@@ -49,7 +67,7 @@ class MidiaController extends Controller {
             if(!is_dir($this->directory . '/' . $item)) {
                 $_files[$i]['fullname'] = $item;
                 $_files[$i]['name'] = pathinfo($item, PATHINFO_FILENAME);
-                $_files[$i]['url'] = url($this->directory_name . '/' . $item);
+                $_files[$i]['url'] = $this->url($this->directory_name . '/' . $item);
                 $_files[$i]['extension'] = strtolower(pathinfo($item,PATHINFO_EXTENSION));
                 $_files[$i]['size'] = $this->toMb(filesize($this->directory . '/' . $item));
                 $_files[$i]['filetime'] = filemtime($this->directory . '/' . $item);
@@ -129,7 +147,7 @@ class MidiaController extends Controller {
         $new_data = [];
         $new_data['fullname'] = $fileName;
         $new_data['name'] = pathinfo($fileName, PATHINFO_FILENAME);
-        $new_data['url'] = url($this->directory_name . '/' . $fileName);
+        $new_data['url'] = $this->url($this->directory_name . '/' . $fileName);
 
         return response()->json(['success'=>$new_data]);
     }
