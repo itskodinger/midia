@@ -12,6 +12,17 @@ Simple media manager for your Laravel project. This package lets you open your f
 - Multiple instance
 - More ...
 
+# Preview
+![midia](https://preview.ibb.co/hOo7MT/midia_1.png)
+![midia](https://preview.ibb.co/bKbGFo/midia_2.png)
+![midia](https://preview.ibb.co/cF0Xo8/midia_3.png)
+![midia](https://preview.ibb.co/iw3Vao/midia_4.png)
+
+# Todo List
+- [ ] Multi user
+- [ ] UI improvement
+- [x] Thumbnail
+
 # Requirements
 - PHP >= 5.6.4
 - jQuery >= 1.12 (Recommended: 1.12)
