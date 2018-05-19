@@ -20,10 +20,10 @@ return [
     	// 	'path' => storage_path('media/home'),
     	// 	'name' => 'media/home' // as url prefix
     	// ],
-    	// 'documents' => [
-    	// 	'path' => storage_path('media/documents'),
-    	// 	'name' => 'media/documents' // as url prefix
-    	// ],
+    	'mydocuments' => [
+    		'path' => storage_path('mydocuments'),
+    		'name' => 'mydocuments' // as url prefix
+    	],
     ],
 
     // Thumbnail size will be generated

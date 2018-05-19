@@ -11,26 +11,31 @@ Route::group(['prefix' => config('midia.url_prefix', 'media')], function() {
   Route::get('/{filename}', function ($filename) {
     $path = pathinfo($filename);
 
-    preg_match_all('/\/thumbs-(.*)/i', $path['dirname'], $thumbs);
+    preg_match_all('/thumbs-(.*)/i', $path['dirname'], $thumbs);
 
     if($path['dirname'] !== '.' && ($path['dirname'] !== config('midia.directory_name'))) {
       foreach(config('midia.directories') as $d) {
-        if($d['name'] == preg_replace('/\/thumbs-(.*)/i', '', $path['dirname'])) {
+        if($d['name'] == rtrim(preg_replace('/thumbs-(.*)/i', '', $path['dirname']), "/")) {
           if(strpos($path['dirname'], "thumbs-") == false) {
             $path = $d['path'] . '/' . $path['basename'];
           }else{
-            $path = $d['path'] . $thumbs[0][0] . '/' . $path['basename'];
+            $path = $d['path'] . '/' . ltrim($thumbs[0][0], "/") . '/' . $path['basename'];
           }
           break;
         }
       }
 
       if(is_array($path)) {
-        $path = '';
+        if(strpos($path['dirname'], "thumbs-") == false) {
+          $path = config('midia.directory') . '/' . $filename;
+        }else{
+          $path = '';
+        }
       }
     }else{
       $path = config('midia.directory') . '/' . $filename;
     }
+
 
     if(!File::exists($path)) return config('midia.404')();
 
