@@ -7,15 +7,58 @@ Route::group(['prefix' => config('midia.prefix', 'midia'), 'middleware' => 'web'
 	Route::post('upload', 'Nauvalazhar\Midia\Controller\MidiaController@upload')->name('midia.upload');
 });
 
-Route::get(config('midia.directory_name', 'media') . '/{filename}', function ($filename) {
-  $path = storage_path() . '/media/' . $filename;
-  if(!File::exists($path)) return abort(404);
+Route::group(['prefix' => config('midia.url_prefix', 'media')], function() {
+  Route::get('/{filename}', function ($filename) {
+    $path = pathinfo($filename);
 
-  $file = File::get($path);
-  $type = File::mimeType($path);
+    preg_match_all('/thumbs-(.*)/i', $path['dirname'], $thumbs);
 
-  $response = Response::make($file, 200);
-  $response->header("Content-Type", $type);
+    if($path['dirname'] !== '.' && ($path['dirname'] !== config('midia.directory_name'))) {
+      foreach(config('midia.directories') as $d) {
+        if($d['name'] == rtrim(preg_replace('/thumbs-(.*)/i', '', $path['dirname']), "/")) {
+          if(strpos($path['dirname'], "thumbs-") == false) {
+            $path = $d['path'] . '/' . $path['basename'];
+          }else{
+            $path = $d['path'] . '/' . ltrim($thumbs[0][0], "/") . '/' . $path['basename'];
+          }
+          break;
+        }
+      }
 
-  return $response;
-})->where('filename','(.*)');
+      if(is_array($path)) {
+        if(strpos($path['dirname'], "thumbs-") == false) {
+          $path = config('midia.directory') . '/' . $filename;
+        }else{
+          $path = '';
+        }
+      }
+    }else{
+      $path = config('midia.directory') . '/' . $filename;
+    }
+
+
+    if(!File::exists($path)) return config('midia.404')();
+
+    $file = File::get($path);
+    $type = File::mimeType($path);
+
+    // resize on the fly
+    $width = request()->width;
+    $height = request()->height;
+
+    if($width || $height) {
+      if(!$width) $width = $height;
+      if(!$height) $height = $width;
+
+      $image = Image::make($path);
+      $image->fit($width, $height);
+      return $image->response();
+    }
+
+
+    $response = Response::make($file, 200);
+    $response->header("Content-Type", $type);
+
+    return $response;
+  })->where('filename','(.*)');
+});

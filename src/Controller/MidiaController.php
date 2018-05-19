@@ -4,24 +4,50 @@ namespace Nauvalazhar\Midia\Controller;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use File;
+use Image;
 
 class MidiaController extends Controller {
     protected $directory;
     protected $directory_name;
+    protected $url_prefix;
+    protected $thumbs, $default_thumb;
 
     public function __construct() {
-        if (request()->has('directory')) {
-            $directory = request()->get('directory', null);
-        }
+        $this->url_prefix = config('midia.url_prefix');
+
         if (request()->has('directory_name')) {
             $directoryName = request()->get('directory_name', null);
         }
-        $this->directory = !empty($directory)
-            ? $directory
-            : config('midia.directory', storage_path('media'));
-        $this->directory_name = !empty($directoryName)
-            ? $directoryName
-            : config('midia.directory_name', 'media');
+
+        if(isset($directoryName)) {
+            $currentDirectory = config('midia.directories.' . $directoryName, null);
+    
+            if($currentDirectory == null) {
+                $this->directory = $directoryName;
+            }else{
+                $this->directory = $currentDirectory['path'];
+                $this->directory_name = $currentDirectory['name'];
+            }
+        }else{
+            $this->directory = config('midia.directory');
+            $this->directory_name = config('midia.directory_name');            
+        }
+
+        if($this->url_prefix == $this->directory_name) {
+            $this->url_prefix = '';
+        }
+
+        $this->url_prefix .= '/';
+
+        // thumbnail
+        $this->thumbs = config('midia.thumbs');
+        if(!in_array(250, $this->thumbs)) $this->thumbs[count($this->thumbs)] = 250;
+
+        $this->default_thumb = 'thumbs-250';
+    }
+
+    public function url($path='') {
+        return url($this->url_prefix . $path);
     }
 
     public function index($limit) {
@@ -29,7 +55,7 @@ class MidiaController extends Controller {
         $q = request()->key;
 
         if(!is_dir($dir)) {
-            return response(['data' => 'Directory can\'t be found'], 404);
+            return response(['data' => 'Directory \''. $dir .'\' can\'t be found'], 404);
         }
 
         $exec = scandir($dir);
@@ -44,12 +70,18 @@ class MidiaController extends Controller {
         $files = array_keys($files);
         $exec = $files;
 
+        $thumbs = $this->thumbs;
+        foreach($thumbs as $i => $t) {
+            $thumbs[$i] = 'thumbs-' . $t;
+        }
+
         $_files = [];
         foreach($exec as $i => $item) {
             if(!is_dir($this->directory . '/' . $item)) {
                 $_files[$i]['fullname'] = $item;
                 $_files[$i]['name'] = pathinfo($item, PATHINFO_FILENAME);
-                $_files[$i]['url'] = url($this->directory_name . '/' . $item);
+                $_files[$i]['url'] = $this->url($this->directory_name . '/' . $item);
+                $_files[$i]['thumbnail'] = $this->url($this->directory_name . '/' . $this->default_thumb . '/' . $item);
                 $_files[$i]['extension'] = strtolower(pathinfo($item,PATHINFO_EXTENSION));
                 $_files[$i]['size'] = $this->toMb(filesize($this->directory . '/' . $item));
                 $_files[$i]['filetime'] = filemtime($this->directory . '/' . $item);
@@ -108,7 +140,25 @@ class MidiaController extends Controller {
             $inc++;
         }
         $file->move($this->directory, $fileName);
+
+        // Resize
+        $this->_resize($fileName);
+
         return response()->json(['success'=>$fileName]);
+    }
+
+    public function _resize($fileName) {
+        $thumbs = $this->thumbs;
+        foreach($thumbs as $thumb) {
+            $thumb_folder = 'thumbs-' . $thumb;
+
+            if(!is_dir($this->directory . '/' . $thumb_folder)) 
+                mkdir($this->directory . '/' . $thumb_folder);
+
+            $image = Image::make($this->directory . '/' . $fileName);
+            $image->fit($thumb);
+            $image->save($this->directory . '/' . $thumb_folder . '/' . $fileName);
+        }
     }
 
     public function rename(Request $request, $file) {
@@ -125,11 +175,17 @@ class MidiaController extends Controller {
         }
 
         rename($this->directory . '/' . $file, $this->directory . '/' . $fileName);
+        $thumbs = $this->thumbs;
+        foreach($thumbs as $thumb) {
+            $thumb_folder = 'thumbs-' . $thumb;
+            rename($this->directory . '/' . $thumb_folder . '/' . $file, $this->directory . '/' . $thumb_folder . '/' . $fileName);
+        }
 
         $new_data = [];
         $new_data['fullname'] = $fileName;
         $new_data['name'] = pathinfo($fileName, PATHINFO_FILENAME);
-        $new_data['url'] = url($this->directory_name . '/' . $fileName);
+        $new_data['url'] = $this->url($this->directory_name . '/' . $fileName);
+        $new_data['thumbnail'] = $this->url($this->directory_name . '/' . $this->default_thumb . '/' . $fileName);
 
         return response()->json(['success'=>$new_data]);
     }

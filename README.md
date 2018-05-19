@@ -1,5 +1,5 @@
 # Midia
-Simple media manager for your Laravel project. This package lets you open your files as inline modal.
+Simple media manager for your Laravel project. This package lets you open your files as inline modal. All directories in the folder will be ignored. In other words, can only read the file.
 
 # Features
 - Fully responsive
@@ -7,11 +7,15 @@ Simple media manager for your Laravel project. This package lets you open your f
 - Infinite scroll
 - Search
 - Upload multiple
+- Multiple thumbnail sizes
+- Multiple directories
+- Multiple instance
 - More ...
 
 # Requirements
 - PHP >= 5.6.4
-- jQuery >= 1.12
+- jQuery >= 1.12 (Recommended: 1.12)
+- intervention/image
 - Dropzone.js
 - Laravel 5
 
@@ -91,7 +95,46 @@ If you successfully integrate with other editors, then you can either create `is
 	  tinymce.init(editor_config);
 </script>
 ```
+### Summernote
+```html
+<textarea class="summernote"></textarea>
+<script>
+    var midia = function(options, cb) {
+        var route_prefix = (options && options.prefix) ? options.prefix : '/midia';
+        window.open(route_prefix + '?type=' + options.type || 'file', 'Midia', 'width=900,height=600');
+        window.SetUrl = cb;
+    };
+    
+    var MButton = function(context) {
+        var ui = $.summernote.ui;
+        var button = ui.button({
+            contents: '<i class="note-icon-picture"></i> ',
+            tooltip: 'Insert image with filemanager',
+            click: function() {
+                midia({type: 'image', prefix: '/midia/open/summernote'}, function(url, path) {
+                    context.invoke('insertImage', url);
+                });
+            }
+        });
+        return button.render();
+    };
+    
+    $('.summernote').summernote({
+        minHeight: 150,
+        toolbar: [
+            ['style', ['bold', 'italic', 'underline', 'clear']],
+            ['font', ['strikethrough']],
+            ['insert', ['link']],
+            ['popovers', ['midia']],
+        ],
+        buttons: {
+            midia: MButton
+        }
+    })
+</script>
+```
 ### Standalone Button
+#### Popup
 ```html
 <input type="text" id="my-file">
 <button class="midia-toggle" data-input="my-file">Select File</button>
@@ -99,6 +142,36 @@ If you successfully integrate with other editors, then you can either create `is
 <script>
 	$(".midia-toggle").midia({
 		base_url: '{{url('')}}'
+	});
+</script>
+```
+#### Inline
+```html
+<div id="media"></div>
+
+<script>
+	$("#media").midia({
+		inline: true,
+		base_url: '{{url('')}}'
+	});
+</script>
+```
+#### Multiple Instance With Different Directories
+```html
+<div id="media1"></div>
+<div id="media2"></div>
+
+<script>
+	<!-- Default directory -->
+	$("#media1").midia({
+		inline: true,
+		base_url: '{{url('')}}'
+	});
+	<!-- 'mydocuments' directory -->
+	$("#media2").midia({
+		inline: true,
+		base_url: '{{url('')}}',
+		directory_name: 'mydocuments'
 	});
 </script>
 ```
@@ -110,8 +183,7 @@ You can also use the configuration in `.midia()`. The following is the default c
 	inline: false, // if you want to open the media manager as an inline element
 	base_url: '', // base url of your project
 	file_name: '', // set to 'url' if you want to give full URL when choosing file,
-	directory = '', // set to {{ config('home_directory') }} for example.
-	directory_name = '', // set to {{ config('home_directory_name') }} for example.
+	directory_name = '', // set with the existing key in the `config/midia.php` file in the 'directories' key. For example: 'mydocuments'
 	data_target: 'input', // selector attribute for target file input
 	data_preview: 'preview', // selector attribute for target file preview
 	csrf_field: $("meta[name='csrf-token']").attr('content'), // your CSRF field
@@ -133,19 +205,50 @@ For example:
 http://yourdomain.com/media/image.png
 ```
 **Note:** You can change the `media` prefix in the `config/midia.php` file
-	
+
+# Resize Image On The Fly
+You can quickly resize an image, set the `width` parameters to the size you want (in pixels) and set the `height` parameters to the size you want. If the `width` parameter is not set, it will be set equal to the `height` parameter and If the `height` parameter is not set, it will be set equal to the `width` parameter.
+```
+For 100px * 300px image:
+http://yourdomain.com/media/image.png?width=100&height=300
+For 100px * 100px image:
+http://yourdomain.com/media/image.png?width=100
+```
+**Note:** Resizing an image over its original size may make the image blurry
+
 # Configuration
 You can change the default configuration in the `config/midia.php` file.
 ```php
 <?php
 return [
-	// Target diirectory
-	'directory' => storage_path('media'),
-	// For URL (e.g: http://base/media/filename.ext)
-	'directory_name' => 'media',
-	'prefix' => 'midia',
-	'home_directory => storage_path('media/site/home'),
-	'home_directory_name => 'media/site/home',
+    // DEFAULT Target directory
+    'directory' => storage_path('media'),
+    // For URL (e.g: http://base/media/filename.ext)
+    'directory_name' => 'media',
+    'url_prefix' => 'media',
+    'prefix' => 'midia',
+
+    // 404
+    '404' => function() {
+    	return abort(404);
+    },
+    
+    // Multiple target directories
+    'directories' => [
+    	// Examples:
+    	// ---------
+    	// 'home' => [
+    	// 	'path' => storage_path('media/home'),
+    	// 	'name' => 'media/home' // as url prefix
+    	// ],
+    	'mydocuments' => [
+    		'path' => storage_path('mydocuments'),
+    		'name' => 'mydocuments' // as url prefix
+    	],
+    ],
+
+    // Thumbnail size will be generated
+	'thumbs' => [100, /*80, 100*/],
 ];
 ```
 
