@@ -3,13 +3,32 @@
     "description": "Simple Media manager for your Laravel project",
     "type": "library",
     "license": "MIT",
+    "keywords": [
+        "laravel",
+        "filemanager",
+        "dropzone",
+        "upload",
+        "file",
+        "manager",
+        "image",
+        "ckeditor",
+        "tinymce",
+        "summernote"
+    ],
     "authors": [
         {
             "name": "Muhamad Nauval Azhar",
             "email": "nauvalazhar2@gmail.com"
+        },
+        {
+            "name": "Multinity",
+            "email": "hi@multinity.com"
         }
     ],
-    "require": {},
+    "require": {
+        "php": ">=5.6.0",
+        "intervention/image": "2.*"
+    },
     "autoload": {
         "classmap": [
             "src"

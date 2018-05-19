@@ -474,10 +474,10 @@
                             if (window.opener) {
                               window.close();
                             }
-                        } else {
-                            $(myid + " #" + me.data(options.data_target)).val(file_name);
-                            if($(myid + " #" + me.data(options.data_preview)).length) {
-                                $(myid + " #" + me.data(options.data_preview)).attr('src', url);
+                        }else{
+                            $("#" + me.data(options.data_target)).val(file_name);
+                            if($("#" + me.data(options.data_preview)).length) {
+                                $("#" + me.data(options.data_preview)).attr('src', url);
                             }
                             options.onChoose.call(this, file);
                             midia.close();
