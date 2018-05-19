@@ -11,10 +11,16 @@ Route::group(['prefix' => config('midia.url_prefix', 'media')], function() {
   Route::get('/{filename}', function ($filename) {
     $path = pathinfo($filename);
 
+    preg_match_all('/\/thumbs-(.*)/i', $path['dirname'], $thumbs);
+
     if($path['dirname'] !== '.' && ($path['dirname'] !== config('midia.directory_name'))) {
       foreach(config('midia.directories') as $d) {
-        if($d['name'] == $path['dirname']) {
-          $path = $d['path'] . '/' . $path['basename'];
+        if($d['name'] == preg_replace('/\/thumbs-(.*)/i', '', $path['dirname'])) {
+          if(strpos($path['dirname'], "thumbs-") == false) {
+            $path = $d['path'] . '/' . $path['basename'];
+          }else{
+            $path = $d['path'] . $thumbs[0][0] . '/' . $path['basename'];
+          }
           break;
         }
       }
@@ -30,6 +36,20 @@ Route::group(['prefix' => config('midia.url_prefix', 'media')], function() {
 
     $file = File::get($path);
     $type = File::mimeType($path);
+
+    // resize on the fly
+    $width = request()->width;
+    $height = request()->height;
+
+    if($width || $height) {
+      if(!$width) $width = $height;
+      if(!$height) $height = $width;
+
+      $image = Image::make($path);
+      $image->fit($width, $height);
+      return $image->response();
+    }
+
 
     $response = Response::make($file, 200);
     $response->header("Content-Type", $type);

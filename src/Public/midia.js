@@ -262,7 +262,7 @@
                                     file += "<div class='midia-item' data-id='"+item.fullname+"' data-file='"+JSON.stringify(item)+"'>";
                                     file += "<div class='midia-item-inner'>";
                                     if(item.extension == 'jpg' || item.extension == 'png' || item.extension == 'bmp' || item.extension == 'gif' || item.extension == 'jpeg') {
-                                        file += "<div class='midia-image'><img src='"+item.url+"' alt='"+item.fullname+"'></div>";
+                                        file += "<div class='midia-image'><img src='"+item.thumbnail+"' alt='"+item.fullname+"'></div>";
                                     }else{
                                         file += "<div class='midia-image midia-notimage'>"+item.extension+"</div>";
                                     }

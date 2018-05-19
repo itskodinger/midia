@@ -24,5 +24,8 @@ return [
     	// 	'path' => storage_path('media/documents'),
     	// 	'name' => 'media/documents' // as url prefix
     	// ],
-    ]
+    ],
+
+    // Thumbnail size will be generated
+	'thumbs' => [100, /*80, 100*/],
 ];
