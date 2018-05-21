@@ -35,6 +35,16 @@
         ],
         "psr-4": {
             "Nauvalazhar\\Midia\\": "src/"
+        },
+        "files": [
+            "src/Helpers.php"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Nauvalazhar\\Midia\\MidiaServiceProvider"
+            ]
         }
     }
 }
