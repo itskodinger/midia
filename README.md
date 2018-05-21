@@ -57,7 +57,7 @@ Nauvalazhar\Midia\MidiaServiceProvider::class,
 # Usage
 1. Publish required assets.
 
-````
+```
 php artisan vendor:publish --tag=midia
 ```
 
