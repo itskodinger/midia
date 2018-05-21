@@ -40,28 +40,50 @@ Simple media manager for your Laravel project. This package lets you open your f
 
 # Installation
 Now, this package is available for production. You can install this package using these steps.
-1. Run `composer require nauvalazhar/midia`
+
+1. Install through Composer  
+```
+composer require nauvalazhar/midia
+```
+
+If you're using Laravel 5.6 you can skip this step, since it will be auto discovered by Laravel.
+
 2. Put this line into `config/app.php` in the `providers` key
 ```php
-        Nauvalazhar\Midia\MidiaServiceProvider::class,
+Nauvalazhar\Midia\MidiaServiceProvider::class,
 ```
-3. Done
+3. Done!
 
 # Usage
-1. Run `php artisan vendor:publish --tag=midia`
+1. Publish required assets.
+
+````
+php artisan vendor:publish --tag=midia
+```
+
 2. Put this code in the `<head>` tag
+
 ```html
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+<meta name="csrf-token" content="{{ csrf_token() }}">
 ```
 3. Add these lines before the `</head>` tag
 ```html
-	<link rel="stylesheet" href="{{asset('vendor/midia/midia.css')}}">
-	<link rel="stylesheet" href="{{asset('vendor/midia/dropzone.css')}}">
+<link rel="stylesheet" href="{{asset('vendor/midia/midia.css')}}">
+<link rel="stylesheet" href="{{asset('vendor/midia/dropzone.css')}}">
+
+// or using helpers
+
+{!! midia_css() !!}
+
 ```
 4. Make sure you've included jQuery before and put these lines after jQuery
 ```html
-	<script src="{{asset('vendor/midia/dropzone.js')}}"></script>
-	<script src="{{asset('vendor/midia/midia.js')}}"></script>
+<script src="{{asset('vendor/midia/dropzone.js')}}"></script>
+<script src="{{asset('vendor/midia/midia.js')}}"></script>
+
+// or using helpers
+
+{!! midia_js() !!}
 ```
 
 **Note:** Default, all files that are read and uploaded will be stored in the `storage/media` folder, so create a folder named `media` in the `storage` folder if you have not already created it or you can change the location of the folders you want in `config/midia.php`.
