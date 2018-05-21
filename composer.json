@@ -1,5 +1,5 @@
 {
-    "name": "nauvalazhar/midia",
+    "name": "itskodinger/midia",
     "description": "Simple Media manager for your Laravel project",
     "type": "library",
     "license": "MIT",
@@ -23,6 +23,14 @@
         {
             "name": "Multinity",
             "email": "hi@multinity.com"
+        },
+        {
+            "name": "Kodinger",
+            "email": "itskodinger@gmail.com"
+        },
+        {
+            "name": "Rizal Fakhri",
+            "email": "rizal@codehub.id"
         }
     ],
     "require": {
