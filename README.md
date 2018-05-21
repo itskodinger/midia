@@ -43,7 +43,7 @@ Now, this package is available for production. You can install this package usin
 
 1. Install through Composer  
 ```
-composer require nauvalazhar/midia
+composer require itskodinger/midia
 ```
 
 If you're using Laravel 5.6 you can skip this step, since it will be auto discovered by Laravel.
