@@ -182,7 +182,7 @@
                             $(myid + " .midia-upload").show();
                             _this.html('Back');
                         }else{
-                            _this.html('Uplaod');
+                            _this.html('Upload');
                             $(myid + " .midia-upload").removeClass("midia-active");
                             $(myid + " .midia-upload").hide();
                             $(myid + " .midia-loader").show();
