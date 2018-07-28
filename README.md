@@ -212,7 +212,6 @@ You can also use the configuration in `.midia()`. The following is the default c
 ```javascript
 {
 	title: 'Midia',
-	paragraph: 'Press F2 (or double-click) on the item to rename the file.',
 	inline: false, // if you want to open the media manager as an inline element
 	base_url: '', // base url of your project
 	file_name: '', // set to 'url' if you want to give full URL when choosing file,
