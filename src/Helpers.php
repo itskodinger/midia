@@ -9,12 +9,7 @@ if (!function_exists('midia_css')) {
      */
     function midia_css()
     {
-        return <<<EOT
-
-<link rel="stylesheet" href="{{asset('vendor/midia/midia.css')}}">
-<link rel="stylesheet" href="{{asset('vendor/midia/dropzone.css')}}">
-
-EOT;
+        return '<link rel="stylesheet" href="' . asset('vendor/midia/midia.css') . '"><link rel="stylesheet" href="' . asset('vendor/midia/dropzone.css') . '">';
     }
 }
 
@@ -27,13 +22,7 @@ if (!function_exists('midia_js')) {
      */
     function midia_js()
     {
-        return <<<EOT
-
-<script src="{{asset('vendor/midia/dropzone.js')}}"></script>
-<script src="{{asset('vendor/midia/clipboard.js')}}"></script>
-<script src="{{asset('vendor/midia/midia.js')}}"></script>
-
-EOT;
+        return '<script src="' . asset('vendor/midia/dropzone.js') . '"></script><script src="' . asset('vendor/midia/clipboard.js') . '"></script><script src="' . asset('vendor/midia/midia.js') . '"></script>';
     }
 }
 
