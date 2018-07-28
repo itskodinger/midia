@@ -1,5 +1,5 @@
 <?php
-namespace Nauvalazhar\Midia\Controller;
+namespace Itskodinger\Midia\Controller;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
@@ -84,7 +84,7 @@ class MidiaController extends Controller {
                 $_files[$i]['thumbnail'] = $this->url($this->directory_name . '/' . $this->default_thumb . '/' . $item);
                 $_files[$i]['extension'] = strtolower(pathinfo($item,PATHINFO_EXTENSION));
                 $_files[$i]['size'] = $this->toMb(filesize($this->directory . '/' . $item));
-                $_files[$i]['filetime'] = filemtime($this->directory . '/' . $item);
+                $_files[$i]['filetime'] = midia_time_elapsed(filemtime($this->directory . '/' . $item));
             }
         }
 
@@ -142,7 +142,15 @@ class MidiaController extends Controller {
         $file->move($this->directory, $fileName);
 
         // Resize
-        $this->_resize($fileName);
+        $is_image = [
+            'image/jpg',
+            'image/png', 
+            'image/gif', 
+            'image/webp'
+        ];
+        if(in_array(mime_content_type($this->directory . '/' . $fileName), $is_image)) {
+            $this->_resize($fileName);
+        }
 
         return response()->json(['success'=>$fileName]);
     }

@@ -50,7 +50,7 @@ If you're using Laravel 5.6 you can skip this step, since it will be auto discov
 
 2. Put this line into `config/app.php` in the `providers` key
 ```php
-Nauvalazhar\Midia\MidiaServiceProvider::class,
+Itskodinger\Midia\MidiaServiceProvider::class,
 ```
 3. Done!
 

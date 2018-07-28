@@ -7,6 +7,18 @@
 	z-index: 4000;
 	overflow: auto;
 	background-color: rgba(0,0,0,.7);
+	animation-name: midiaBackdrop;
+	animation-duration: .5s;
+	animation-fill-mode: forwards;
+}
+
+@keyframes midiaBackdrop {
+	0% {
+		background-color: rgba(0,0,0,.0);
+	}
+	100% {
+		background-color: rgba(0,0,0,.7);
+	}
 }
 
 .midia-wrapper * {
@@ -25,9 +37,27 @@
 }
 
 .midia-content {
-	background-color: #f9f9f9;
+	background-color: #fff;
 	font-size: 14px;
 	border-radius: 3px;
+	animation-name: midia;
+	animation-duration: 1s;
+	animation-fill-mode: forwards;
+}
+
+@keyframes midia {
+	0% {
+		opacity: 0;
+		margin-top: -100px;
+	}
+	50% {
+		opacity: 8;
+		margin-top: 8px;
+	}
+	100% {
+		opacity: 1;
+		margin-top: 0;
+	}
 }
 
 .midia-content .midia-header,
@@ -44,10 +74,9 @@
 }
 
 .midia-content .midia-header .midia-title {
-	float: left;
 	margin-right: 10px;
 	display: inline-block;
-	max-width: 300px;
+	width: 100%;
 	line-height: 22px;
 }
 
@@ -62,29 +91,51 @@
 	color: #999;
 }
 
+.midia-close {
+	position: absolute;
+	top: 0;
+	right: 0;
+	background-color: #dd0a35;
+	color: #fff;
+	width: 35px;
+	height: 35px;
+	border-radius: 0 0 0 3px;
+	text-align: center;
+	text-decoration: none;
+	font-size: 24px;
+	line-height: 28px;
+}
+
 .midia-content .midia-header #midia-total {
 	background-color: #ddd;
 }
 
 .midia-content .midia-header .midia-nav {
-	float: right;
-	margin-top: 7px;
+	float: left;
+	margin-top: 20px;
 	margin-bottom: 10px;
 }
 
 .midia-content .midia-header .midia-nav a {
 	display: inline-block;
-	background-color: #000;
-	color: #fff;
+	border: 1px solid #4052e1;
+	color: #4052e1;
 	padding: 5px 15px;
 	text-decoration: none;
 	font-size: 12px;
-	border-radius: 30px;
-	margin-right: 5px;
+	border-radius: 3px;
+	margin-right: 2px;
+	transition: all .5s;
+}
+.midia-content .midia-header .midia-nav a.active {
+	background-color: #4052e1;
+	color: #fff;
+	box-shadow: 0 4px 15px rgba(64,82,225, .35);
 }
 
 .midia-content .midia-header .midia-nav a:hover {
-	opacity: .8;
+	background-color: #4052e1;
+	color: #fff;
 }
 
 .midia-content .midia-body {
@@ -95,8 +146,31 @@
 	text-align: right;
 }
 
+.midia-message, .midia-p {
+	line-height: 1;
+	font-size: 12px;
+	margin-bottom: 5px;
+	color: #666;
+}
+
+.midia-p:not(.midia-nolh) {
+	line-height: 22px;
+	margin-top: 0;
+}
+
+.midia-page:not(.midia-loader) {
+	display: none;
+}
+.midia-page h4 {
+	margin: 0 0 10px;
+}
+.midia-page a {
+	color: #4052e1;
+}
+
 .midia-btn {
 	font-size: 12px;
+	font-weight: 500;
 	background-color: #ddd;
 	color: #000;
 	text-decoration: none;
@@ -104,20 +178,37 @@
 	padding: 5px 15px;
 	border-radius: 30px;
 	cursor: pointer;
+	transition: all .5s;
 }
 
 .midia-btn:hover {
-	opacity: .8;
+	transform: translateY(-1.5px);
 }
 
 .midia-btn.midia-btn-primary {
 	background-color: #000;
 	color: #fff;
 }
+.midia-btn.midia-btn-light {
+	background-color: #fff;
+	color: #444;
+}
+.midia-btn.midia-btn-colored {
+	background-color: #4052e1;
+	color: #fff;
+}
+.midia-btn.midia-btn-shadow {
+	box-shadow: 0 4px 15px rgba(0,0,0,.15);
+}
 
 .midia-btn-delete {
 	background-color: #e74c3c !important;
 	cursor: pointer;
+}
+
+
+.midia-files-outer {
+	margin: 0 -10px;
 }
 
 .midia-files {
@@ -128,6 +219,8 @@
 .midia-files .midia-item {
 	padding: 10px;
 	width: calc(100% * (1/4));
+	position: relative;
+	transition: all .5s;
 }
 
 .midia-files .midia-item.midia-doload .midia-item-inner:after {
@@ -145,13 +238,92 @@
 	background-repeat: no-repeat;
 }
 
-.midia-files .midia-item.midia-unselected:not(.midia-selected) {
+.midia-files:hover .midia-item {
 	opacity: .3;
-	filter: blur(1.5px);
+}
+.midia-files .midia-item:hover {
+	opacity: 1;
+}
+
+.midia-files .midia-options-outer {
+	position: absolute;
+	right: 25px;
+	top: 15px;
+	opacity: 0;
+	z-index: 12;
+	transition: all .5s;
+}
+.midia-files .midia-item:hover .midia-options-outer {
+	top: 25px;
+	opacity: 1;
+}
+.midia-files .midia-options-toggle {
+	text-align: center;
+	border-radius: 50%;
+	background-color: #4052e1;
+	color: #fff;
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	font-size: 14px;
+	font-weight: 600;
+	cursor: pointer;
+	box-shadow: 0 0 30px rgba(0,0,0, .05);
+}
+.midia-files .midia-options {
+	opacity: 0;
+	visibility: hidden;
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 145px;
+	z-index: 12;
+	box-shadow: 0 0 30px rgba(0,0,0, .05);
+	transition: all .5s;
+}
+.midia-files .midia-options .midia-option {
+	cursor: pointer;
+	display: block;
+	margin-bottom: -1px;
+	padding: 8px 11px;
+	font-size: 12px;
+	font-weight: 500;
+	background-color: #fff;
+	color: #000;
+	text-decoration: none;
+	transition: all .5s;
+}
+.midia-files .midia-options .midia-option.midia-option-danger {
+	color: #dd0a35;
+}
+.midia-files .midia-options .midia-option.midia-option-divider {
+	padding: 0;
+	width: 100%;
+	height: 2px;
+	background-color: #f2f2f2;
+}
+.midia-files .midia-options .midia-option:hover {
+	background-color: #f6f6f6;
+}
+.midia-files .midia-options-outer:hover .midia-options {
+	visibility: visible;
+	opacity: 1;
+}
+.midia-files .midia-floating {
+	position: absolute;
+	top: 140px;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 11;
+	opacity: 0;
+	transition: all .5s;
+}
+.midia-files .midia-item:hover .midia-floating {
+	opacity: 1;
+	top: 125px;
 }
 
 .midia-files .midia-item-inner {
-	cursor: pointer;
 	border-radius: 3px;
 	position: relative;
 	background-color: #fff;
@@ -165,6 +337,9 @@
 	height: 140px;
 	overflow: hidden;
 	background-color: #f2f2f2;
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
 	text-align: center;
 	line-height: 140px;
 	position: relative;
@@ -207,7 +382,7 @@
 	display: none;
 }
 
-.midia-files .midia-item.midia-selected .midia-actions {
+.midia-files .midia-item:hover .midia-actions {
 	position: absolute;
 	z-index: 1;
 	bottom: -40px;
@@ -220,7 +395,7 @@
 	box-shadow: 0 20px 30px rgba(0,0,0,.05);
 }
 
-.midia-files .midia-item.midia-selected .midia-actions .midia-action-item {
+.midia-files .midia-item:hover .midia-actions .midia-action-item {
 	display: inline-block;
 	border-radius: 30px;
 	font-size: 12px;
@@ -231,21 +406,13 @@
 	margin-right: 5px;
 }
 
-.midia-files .midia-item.midia-selected .midia-actions .midia-action-item:hover {
+.midia-files .midia-item:hover .midia-actions .midia-action-item:hover {
 	opacity: .8;
-}
-
-.midia-loader {
-	margin: 0 -10px;
 }
 
 .midia-outer-loadmore {
 	text-align: center;
 	margin-top: 20px;
-}
-
-.midia-upload {
-	display: none;
 }
 
 .midia-loading {
@@ -279,23 +446,27 @@
 	color: #666;
 }
 
-.midia-input-outer {
-	display: inline-block;
-	width: 100%;
-	text-align: center;
-	margin-top: 10px;
+.midia-nav-right {
+	float: right;
+	margin-top: 15px;
+}
+
+.midia-tool {
+	border-radius: 3px;
+	padding: 9px 12px;
+	cursor: pointer;
+	background-color: #f4f4f4;
 }
 
 .midia-input {
 	display: inline-block;
-	background-color: #fff;
-	box-shadow: 0 0 40px rgba(0,0,0,.05);
-	padding: 10px 25px;
+	background-color: #f4f4f4;
+	padding: 10px 15px;
 	font-size: 12px;
 	outline: none;
 	border: none;
-	border-radius: 30px;
-	width: 300px;
+	border-radius: 3px;
+	width: 250px;
 }
 
 @media screen and (max-width: 1200px) {
@@ -316,10 +487,10 @@
 		height: 120px;
 		line-height: 120px;
 	}
-	.midia-files .midia-item.midia-selected .midia-actions {
+	.midia-files .midia-item:hover .midia-actions {
 		bottom: -80px;
 	}
-	.midia-files .midia-item.midia-selected .midia-actions .midia-action-item {
+	.midia-files .midia-item:hover .midia-actions .midia-action-item {
 		display: inline-block;
 		width: 100%;
 		margin-bottom: 5px;
@@ -327,6 +498,9 @@
 }
 
 @media screen and (max-width: 425px) {
+	.midia-nav-right {
+		width: 100%;
+	}
 	.midia-files .midia-item {
 		width: calc(100% / 2);
 	}
@@ -337,8 +511,11 @@
 		margin-top: 15px;
 		margin-bottom: 15px;
 	}
-	.midia-input {
-		width: 100%;
+	.midia-input, .midia-tool {
+		float: left;
+	}
+	.midia-tool {
+		margin-right: 3px;
 	}
 }
 
@@ -362,9 +539,13 @@
 	.midia-files .midia-item {
 		width: 100%;
 	}
+	.midia-input {
+		max-width: 200px;
+	}
 }
 
 .dropzone {
+	margin-top: 15px;
 	border-width: 2px !important;
 	border-style: dashed !important;
 }
@@ -375,4 +556,21 @@
 	text-transform: uppercase !important;
 	letter-spacing: 1.5px !important;
 	color: #666 !important;
+}
+
+.midia-divider {
+	margin: 25px 0;
+	display: block;
+}
+
+.midia-supporter {
+	display: flex;
+	align-items: center;
+}
+.midia-supporter a {
+	width: 80px;
+	margin-right: 10px;
+}
+.midia-supporter a img {
+	width: 100%;
 }

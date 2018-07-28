@@ -1,6 +1,6 @@
 <?php
 
-namespace Nauvalazhar\Midia;
+namespace Itskodinger\Midia;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -13,11 +13,14 @@ class MidiaServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        require __DIR__ . '/Helpers.php';
+
         $this->loadRoutesFrom(__DIR__ . '/Route/web.php');
         $this->loadViewsFrom(__DIR__ . '/View', 'midia');
 
         $this->publishes([
             __DIR__ . '/Config/midia.php' => config_path('midia.php'),
+            __DIR__ . '/Public/clipboard.js' => public_path('vendor/midia/clipboard.js'),
             __DIR__ . '/Public/midia.js' => public_path('vendor/midia/midia.js'),
             __DIR__ . '/Public/midia.css' => public_path('vendor/midia/midia.css'),
             __DIR__ . '/Public/dropzone.js' => public_path('vendor/midia/dropzone.js'),

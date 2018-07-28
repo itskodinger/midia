@@ -1,10 +1,10 @@
 <?php
 Route::group(['prefix' => config('midia.prefix', 'midia'), 'middleware' => 'web'], function() {
-	Route::get('open/{editor?}', 'Nauvalazhar\Midia\Controller\MidiaController@open')->name('midia.open');
-	Route::get('get/{limit?}', 'Nauvalazhar\Midia\Controller\MidiaController@index')->name('midia.get');
-	Route::delete('{file}/delete', 'Nauvalazhar\Midia\Controller\MidiaController@delete')->name('midia.delete');
-	Route::put('{file}/rename', 'Nauvalazhar\Midia\Controller\MidiaController@rename')->name('midia.rename');
-	Route::post('upload', 'Nauvalazhar\Midia\Controller\MidiaController@upload')->name('midia.upload');
+	Route::get('open/{editor?}', 'Itskodinger\Midia\Controller\MidiaController@open')->name('midia.open');
+	Route::get('get/{limit?}', 'Itskodinger\Midia\Controller\MidiaController@index')->name('midia.get');
+	Route::delete('{file}/delete', 'Itskodinger\Midia\Controller\MidiaController@delete')->name('midia.delete');
+	Route::put('{file}/rename', 'Itskodinger\Midia\Controller\MidiaController@rename')->name('midia.rename');
+	Route::post('upload', 'Itskodinger\Midia\Controller\MidiaController@upload')->name('midia.upload');
 });
 
 Route::group(['prefix' => config('midia.url_prefix', 'media')], function() {
