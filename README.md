@@ -13,10 +13,12 @@ Simple media manager for your Laravel project. This package lets you open your f
 - More ...
 
 # Preview
-![midia](https://preview.ibb.co/hOo7MT/midia_1.png)
-![midia](https://preview.ibb.co/bKbGFo/midia_2.png)
-![midia](https://preview.ibb.co/cF0Xo8/midia_3.png)
-![midia](https://preview.ibb.co/dZRrFo/midia_4.png)
+![midia](https://image.ibb.co/kqkvm8/midia_1.png)
+![midia](https://image.ibb.co/dzFHzT/midia_2.png)
+![midia](https://image.ibb.co/k6x868/midia_3.png)
+![midia](https://image.ibb.co/kWiFm8/midia_4.png)
+![midia](https://image.ibb.co/dgpo68/midia_5.png)
+![midia](https://image.ibb.co/ir0vm8/midia_6.png)
 
 # Todo List
 - [ ] Multi user
