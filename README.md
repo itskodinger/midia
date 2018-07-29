@@ -1,5 +1,7 @@
-# Midia
+# Midia ![](https://img.shields.io/badge/license-MIT-green.svg) ![](https://img.shields.io/badge/maintained-Kodinger-orange.svg) ![](https://img.shields.io/badge/php-5.6.0-blue.svg)
 Simple media manager for your Laravel project. This package lets you open your files as inline modal. All directories in the folder will be ignored. In other words, can only read the file.
+
+![midia](https://i.imgur.com/KOjqofb.gif)
 
 # Features
 - Fully responsive
@@ -11,14 +13,6 @@ Simple media manager for your Laravel project. This package lets you open your f
 - Multiple directories
 - Multiple instance
 - More ...
-
-# Preview
-![midia](https://image.ibb.co/kqkvm8/midia_1.png)
-![midia](https://image.ibb.co/dzFHzT/midia_2.png)
-![midia](https://image.ibb.co/k6x868/midia_3.png)
-![midia](https://image.ibb.co/kWiFm8/midia_4.png)
-![midia](https://image.ibb.co/dgpo68/midia_5.png)
-![midia](https://image.ibb.co/ir0vm8/midia_6.png)
 
 # Todo List
 - [ ] Multi user
