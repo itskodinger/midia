@@ -435,6 +435,7 @@
                                     success: function(data) {
                                         data = data.success;
                                         _this.find(".midia-name").html(data.fullname);
+                                        _this.find(".midia-options [download]").attr('href', data.url);
                                         var new_data = data;
                                         new_data = $.extend(_this.data('file'), data);
                                         _this.attr('data-file', new_data);
