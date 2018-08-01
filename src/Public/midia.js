@@ -521,9 +521,13 @@
                               window.close();
                             }
                         }else{
-                            $("#" + me.data(options.data_target)).val(file_name);
-                            if($("#" + me.data(options.data_preview)).length) {
-                                $("#" + me.data(options.data_preview)).attr('src', url);
+                            let target = me.data(options.data_target);
+                            $("#" + target).val(file_name);
+                            file.target = target;
+                            let preview = me.data(options.data_preview);
+                            if($("#" + preview).length) {
+                                $("#" + preview).attr('src', file.thumbnail).attr('src-full', url);
+                                file.preview = preview;
                             }
                             options.onChoose.call(this, file);
                             midia.close();
