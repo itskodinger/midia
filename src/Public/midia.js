@@ -252,6 +252,20 @@
                         return url;
                     };
 
+                    var load_files_when_on_screen = function () {
+                        if ($(myid + " #midia-loadmore").isInViewport() && $(myid + " #midia-loadmore").css('display') != 'none') {
+                            load_files();
+                        }
+                    }
+
+                    $('.midia-wrapper').scroll(function () {
+                        load_files_when_on_screen();
+                    });
+
+                    $('window').on('resize scroll', function() {
+                        load_files_when_on_screen();
+                    });
+
                     var load_files = function(success) {
                         limit += 1;
                         var loader = $(myid + " #midia-files-loader"),
@@ -339,6 +353,7 @@
                                     file += "</div>";
                                 });
                                 loader.append(file);
+                                load_files_when_on_screen();
                             }
                         });
                     }
