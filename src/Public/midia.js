@@ -1,4 +1,12 @@
 (function($, window, i) {
+    $.fn.isInViewport = function() {
+        var elementTop = $(this).offset().top;
+        var elementBottom = elementTop + $(this).outerHeight();
+        var viewportTop = $(window).scrollTop();
+        var viewportBottom = viewportTop + $(window).height();
+        return elementBottom > viewportTop && elementTop < viewportBottom;
+    };
+
     $.fn.midia = function(options) {
         var options = $.extend({
             title: 'Midia',
@@ -14,7 +22,11 @@
             onOpen: function() {},
             onOpened: function() {},
             onClose: function() {},
-            onChoose: function() {}
+            onChoose: function() {},
+            customLoadUrl: null,
+            customUploadUrl: null,
+            customRenameUrl: null,
+            customDeleteUrl: null,
         }, options);
 
         this.each(function() {
@@ -35,6 +47,9 @@
             }
 
             var create_upload_url = function () {
+                if (options.customUploadUrl) {
+                    return options.customUploadUrl();
+                }
                 var url = options.base_url + '/midia/upload';
                 var isDirNameEmpty = options.directory_name === '';
                 if (!isDirNameEmpty) {
@@ -61,6 +76,9 @@
 
             $(document).on("click", myid + " .midia-delete", function() {
                 var create_delete_url = function (filename){
+                    if (options.customDeleteUrl) {
+                        return options.customDeleteUrl(filename);
+                    }
                     var url = options.base_url + '/midia/' + filename + '/delete';
                     var isDirNameEmpty = options.directory_name === '';
                     if (!isDirNameEmpty) {
@@ -220,15 +238,19 @@
                     $(myid).addClass('midia-opened');
                     options.onOpened(this);
 
+                    var clear_dropzone_area = function () {
+                        $('#midia-dropzone').find('.dz-preview').remove();
+                        $('#midia-dropzone').removeClass('dz-started');
+                    }
+
                     $(document).on('click', myid + ' .midia-nav a', function() {
                         let target = $(this).attr('href');
                         $(myid + ' .midia-nav a').removeClass('active');
                         $(this).addClass('active');
                         $(myid + ' .midia-page').hide();
                         $(myid + ' ' + target).show();
-                        if(target == '#midia-page-loader')
-                            $(myid + " #midia-reload").click();
-
+                        target == '#midia-page-loader' && $(myid + " #midia-reload").click();
+                        target == '#midia-page-upload' && clear_dropzone_area();
                         return false;
                     });
 
@@ -236,6 +258,9 @@
                     var mydropzone = new Dropzone(myid + " #midia-dropzone", dropzone_options);
 
                     var create_load_url = function (limit, key) {
+                        if (options.customLoadUrl) {
+                            return options.customLoadUrl(limit, key);
+                        }
                         var url = options.base_url + '/midia/get/' + limit + '?key=' + key;
                         if (options.directory_name !== '') {
                             url += '&directory_name=' + options.directory_name;
@@ -243,6 +268,20 @@
 
                         return url;
                     };
+
+                    var load_files_when_on_screen = function () {
+                        if ($(myid + " #midia-loadmore").isInViewport() && $(myid + " #midia-loadmore").css('display') != 'none') {
+                            load_files();
+                        }
+                    }
+
+                    $('.midia-wrapper').scroll(function () {
+                        load_files_when_on_screen();
+                    });
+
+                    $('window').on('resize scroll', function() {
+                        load_files_when_on_screen();
+                    });
 
                     var load_files = function(success) {
                         limit += 1;
@@ -331,10 +370,17 @@
                                     file += "</div>";
                                 });
                                 loader.append(file);
+                                load_files_when_on_screen();
                             }
                         });
                     }
                     load_files();
+
+                    var focus_to_search = function () {
+                        setTimeout(function () {
+                            $("#midia-search").focus();
+                        }, 300);
+                    }
 
                     $(document).on("keydown", myid + " #midia-search", function(e) {
                         if(e.key == 'Enter') {
@@ -346,6 +392,7 @@
                             }else{
                                 $("#midia-search").attr('placeholder', 'Please enter at least 1 word');
                             }
+                            focus_to_search();
                         }
 
                         if(e.key == 'Escape') {
@@ -355,6 +402,8 @@
                                 limit = 0;
                                 showing = 0;
                                 load_files(false);
+                            } else {
+                                midia.close();
                             }
                         }
                     });
@@ -364,9 +413,13 @@
                         limit = 0;
                         showing = 0;
                         load_files();
+                        focus_to_search();
                     });
 
                     var create_rename_url = function (filename) {
+                        if (options.customRenameUrl) {
+                            return options.customRenameUrl(filename);
+                        }
                         var url = options.base_url + '/midia/' + filename + '/rename';
                         var isDirNameEmpty = options.directory_name === '';
                         if (!isDirNameEmpty) {
@@ -406,6 +459,7 @@
                                     success: function(data) {
                                         data = data.success;
                                         _this.find(".midia-name").html(data.fullname);
+                                        _this.find(".midia-options [download]").attr('href', data.url);
                                         var new_data = data;
                                         new_data = $.extend(_this.data('file'), data);
                                         _this.attr('data-file', new_data);
@@ -491,9 +545,13 @@
                               window.close();
                             }
                         }else{
-                            $("#" + me.data(options.data_target)).val(file_name);
-                            if($("#" + me.data(options.data_preview)).length) {
-                                $("#" + me.data(options.data_preview)).attr('src', url);
+                            let target = me.data(options.data_target);
+                            $("#" + target).val(file_name);
+                            file.target = target;
+                            let preview = me.data(options.data_preview);
+                            if($("#" + preview).length) {
+                                $("#" + preview).attr('src', file.thumbnail).attr('src-full', url);
+                                file.preview = preview;
                             }
                             options.onChoose.call(this, file);
                             midia.close();
@@ -526,15 +584,21 @@
                     $(document).on("click", myid + " .midia-disabled", function() {
                         return false;
                     });
+
+                    focus_to_search();
                 },
                 close: function() {
-                    $(myid + ".midia-wrapper").hide();
-                    $(myid).removeClass('midia-opened');
+                    if(options.inline == false) {
+                        $(myid + ".midia-wrapper").hide();
+                        $(myid).removeClass('midia-opened');
+                    }
                     if(options.editor !== false && options.inline !== false) {
                         $("body").css({
                             overflow: 'initial'
                         });
                     }
+                    let back = $(myid + " .midia-nav a[href=#midia-page-loader]");
+                    $(myid + " #midia-page-loader").css('display') == 'none' && back.click();
                     options.onClose.call(this);
                 }
             }
