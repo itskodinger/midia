@@ -22,7 +22,11 @@
             onOpen: function() {},
             onOpened: function() {},
             onClose: function() {},
-            onChoose: function() {}
+            onChoose: function() {},
+            customLoadUrl: null,
+            customUploadUrl: null,
+            customRenameUrl: null,
+            customDeleteUrl: null,
         }, options);
 
         this.each(function() {
@@ -43,6 +47,9 @@
             }
 
             var create_upload_url = function () {
+                if (options.customUploadUrl) {
+                    return options.customUploadUrl();
+                }
                 var url = options.base_url + '/midia/upload';
                 var isDirNameEmpty = options.directory_name === '';
                 if (!isDirNameEmpty) {
@@ -69,6 +76,9 @@
 
             $(document).on("click", myid + " .midia-delete", function() {
                 var create_delete_url = function (filename){
+                    if (options.customDeleteUrl) {
+                        return options.customDeleteUrl(filename);
+                    }
                     var url = options.base_url + '/midia/' + filename + '/delete';
                     var isDirNameEmpty = options.directory_name === '';
                     if (!isDirNameEmpty) {
@@ -248,6 +258,9 @@
                     var mydropzone = new Dropzone(myid + " #midia-dropzone", dropzone_options);
 
                     var create_load_url = function (limit, key) {
+                        if (options.customLoadUrl) {
+                            return options.customLoadUrl(limit, key);
+                        }
                         var url = options.base_url + '/midia/get/' + limit + '?key=' + key;
                         if (options.directory_name !== '') {
                             url += '&directory_name=' + options.directory_name;
@@ -396,6 +409,9 @@
                     });
 
                     var create_rename_url = function (filename) {
+                        if (options.customRenameUrl) {
+                            return options.customRenameUrl(filename);
+                        }
                         var url = options.base_url + '/midia/' + filename + '/rename';
                         var isDirNameEmpty = options.directory_name === '';
                         if (!isDirNameEmpty) {
