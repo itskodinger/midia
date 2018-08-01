@@ -555,13 +555,17 @@
                     });
                 },
                 close: function() {
-                    $(myid + ".midia-wrapper").hide();
-                    $(myid).removeClass('midia-opened');
+                    if(options.inline == false) {
+                        $(myid + ".midia-wrapper").hide();
+                        $(myid).removeClass('midia-opened');
+                    }
                     if(options.editor !== false && options.inline !== false) {
                         $("body").css({
                             overflow: 'initial'
                         });
                     }
+                    let back = $(myid + " .midia-nav a[href=#midia-page-loader]");
+                    $(myid + " #midia-page-loader").css('display') == 'none' && back.click();
                     options.onClose.call(this);
                 }
             }
