@@ -376,6 +376,12 @@
                     }
                     load_files();
 
+                    var focus_to_search = function () {
+                        setTimeout(function () {
+                            $("#midia-search").focus();
+                        }, 300);
+                    }
+
                     $(document).on("keydown", myid + " #midia-search", function(e) {
                         if(e.key == 'Enter') {
                             if($("#midia-search").val().trim().length > 0) {
@@ -386,6 +392,7 @@
                             }else{
                                 $("#midia-search").attr('placeholder', 'Please enter at least 1 word');
                             }
+                            focus_to_search();
                         }
 
                         if(e.key == 'Escape') {
@@ -406,6 +413,7 @@
                         limit = 0;
                         showing = 0;
                         load_files();
+                        focus_to_search();
                     });
 
                     var create_rename_url = function (filename) {
@@ -576,6 +584,8 @@
                     $(document).on("click", myid + " .midia-disabled", function() {
                         return false;
                     });
+
+                    focus_to_search();
                 },
                 close: function() {
                     if(options.inline == false) {
