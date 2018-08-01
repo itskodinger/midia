@@ -382,6 +382,8 @@
                                 limit = 0;
                                 showing = 0;
                                 load_files(false);
+                            } else {
+                                midia.close();
                             }
                         }
                     });
