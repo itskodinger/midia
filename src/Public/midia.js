@@ -228,15 +228,19 @@
                     $(myid).addClass('midia-opened');
                     options.onOpened(this);
 
+                    var clear_dropzone_area = function () {
+                        $('#midia-dropzone').find('.dz-preview').remove();
+                        $('#midia-dropzone').removeClass('dz-started');
+                    }
+
                     $(document).on('click', myid + ' .midia-nav a', function() {
                         let target = $(this).attr('href');
                         $(myid + ' .midia-nav a').removeClass('active');
                         $(this).addClass('active');
                         $(myid + ' .midia-page').hide();
                         $(myid + ' ' + target).show();
-                        if(target == '#midia-page-loader')
-                            $(myid + " #midia-reload").click();
-
+                        target == '#midia-page-loader' && $(myid + " #midia-reload").click();
+                        target == '#midia-page-upload' && clear_dropzone_area();
                         return false;
                     });
 
