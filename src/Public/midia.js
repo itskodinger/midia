@@ -275,7 +275,7 @@
                             success: function(data) {
                                 $(myid + " #midia-loadmore").show();
                                 showing += data.files.length;
-                                $(myid + " .midia-message").html('Showing ' + showing + " of " + data.total + ' file(s)');
+                                $(myid + " .midia-message").html('Showing ' + showing + " of " + data.total_all + ' file(s)');
 
                                 if(data.total_all == 0) {
                                     loader.html("<div class='midia-notfound'>Your directory is empty</div>");
@@ -297,7 +297,7 @@
                                     return;
                                 }
 
-                                if(data.files.length == data.total || showing == data.total) {
+                                if(data.files.length == data.total && showing == data.total_all) {
                                     $(myid + " #midia-loadmore").hide();
                                 }
 
