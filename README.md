@@ -12,9 +12,11 @@ Simple media manager for your Laravel project. This package lets you open your f
 - Multiple thumbnail sizes
 - Multiple directories
 - Multiple instance
+- Configurable
 - More ...
 
 # Todo List
+- [ ] Multi language
 - [ ] Multi user
 - [ ] UI improvement
 - [x] Thumbnail
@@ -27,6 +29,7 @@ Simple media manager for your Laravel project. This package lets you open your f
 - Laravel 5
 
 # Tested
+- [ ] Laravel 5.6
 - [x] Laravel 5.5
 - [x] Laravel 5.4 
 - [ ] Laravel 5.3 
@@ -94,7 +97,7 @@ If you successfully integrate with other editors, then you can either create `is
 <textarea class="tinymce"></textarea>
 <script>
 	  var editor_config = {
-	    path_absolute : "{{url('')}}/",
+	    path_absolute: "{{url('')}}/",
 	    selector: "textarea.tinymce",
 	    plugins: [
 	      "advlist autolink lists link image charmap print preview hr anchor pagebreak",
@@ -104,19 +107,19 @@ If you successfully integrate with other editors, then you can either create `is
 	    ],
 	    toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media",
 	    relative_urls: false,
-	    file_browser_callback : function(field_name, url, type, win) {
+	    file_browser_callback: function(field_name, url, type, win) {
 	      var x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
 	      var y = window.innerHeight|| document.documentElement.clientHeight|| document.getElementsByTagName('body')[0].clientHeight;
 
 	      var cmsURL = editor_config.path_absolute + 'midia/open/tinymce4?field_name=' + field_name;
 
 	      tinyMCE.activeEditor.windowManager.open({
-	        file : cmsURL,
-	        title : 'Filemanager',
-	        width : x * 0.8,
-	        height : y * 0.8,
-	        resizable : "yes",
-	        close_previous : "no"
+	        file: cmsURL,
+	        title: 'Filemanager',
+	        width: x * 0.8,
+	        height: y * 0.8,
+	        resizable: "yes",
+	        close_previous: "no"
 	      });
 	    }
 	  };
@@ -230,24 +233,23 @@ You can also use the configuration in `.midia()`. The following is the default c
     load_ajax_type: 'get', // default ajax type to fetch files is 'get', you can change with 'post' http method
 }
 ```
-or you can use data-attributes to change the settings, use `data-midia` followed by your setting attributes, i.e. `data-midia-your_setting_want_to_change` :
+or you can use data-attributes to change the settings, use `data-midia` followed by your setting attributes, i.e. `data-midia-your_setting_want_to_change`:
 ```html
     <div data-midia data-midia-title="Inline Midia" data-midia-inline="true" data-midia-actions='["rename","delete"]' data-midia-can_choose="false"></div>
 ```
 
 # Override Default Settings
-You can override default settings for all instances by add following code before creating instance :
+You can override default settings for all instances by add following code before creating instance:
 ```javascript
 $.fn.midia.defaultSettings.name_of_setting = 'new value'; 
 
-// Example :
+// Example:
 $.fn.midia.defaultSettings.title = 'Midia Manager';
 $.fn.midia.defaultSettings.base_url = '/';
 ```
 
 # Setter
-
-You can also change to settings on the fly but you have to refresh after that :
+You can also change to settings on the fly but you have to refresh after that:
 ```javascript
     var midiaObj = $(".midia-toggle").midia();
     midiaObj.midia('title', 'New Title').midia('refresh');
@@ -256,12 +258,12 @@ You can also change to settings on the fly but you have to refresh after that :
 ```
 
 # Getter
-You can get the the value from this following Midia Attributes :
-- el : get the dom elements
-- settings : get the settings 
-- value : get the value, after you pick a file
+You can get the the value from this following Midia Attributes:
+- el: get the dom elements
+- settings: get the settings 
+- value: get the value, after you pick a file
 
-with this way :
+with this way:
 ```javascript
     var midiaObj = $(".midia-toggle").midia();
     midiaObj.midia('el');
@@ -270,12 +272,12 @@ with this way :
 ```
 
 # Methods
-Midia has this following methods :
-- refresh : refresh your midia, including empty the value, and implement the settings you change before.
-- open : open the midia dialog modal
-- close : close the midia dialog modal
+Midia has this following methods:
+- refresh: refresh your midia, including empty the value, and implement the settings you change before.
+- open: open the midia dialog modal
+- close: close the midia dialog modal
 
-with this way :
+with this way:
 ```javascript
     var midiaObj = $(".midia-toggle").midia();
     midiaObj.midia('refresh');
@@ -344,4 +346,4 @@ return [
 This package was first initialized by [@nauvalazhar](https://github.com/nauvalazhar) and maintained by [@itskodinger](https://github.com/itskodinger). Then, it became extraordinary by all contributors: [@rizalfakhri12](https://github.com/rizalfakhri12) [@mrofi](https://github.com/mrofi) [@captainspain](https://github.com/captainspain) [@zeroseed](https://github.com/zeroseed)
 
 # License
-MIT License
+[MIT License](https://github.com/itskodinger/midia/blob/master/LICENSE)
