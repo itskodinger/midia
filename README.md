@@ -341,7 +341,7 @@ return [
 ```
 
 # Authors
-This package was first initialized by [@nauvalazhar](https://github.com/nauvalazhar) and maintained by [@itskodinger](https://github.com/itskodinger). Then, it became extraordinary by all contributors: [@rizalfakhri12](https://github.com/rizalfakhri12) @mrofi [@captainspain](https://github.com/captainspain) [@zeroseed](https://github.com/zeroseed)
+This package was first initialized by [@nauvalazhar](https://github.com/nauvalazhar) and maintained by [@itskodinger](https://github.com/itskodinger). Then, it became extraordinary by all contributors: [@rizalfakhri12](https://github.com/rizalfakhri12) [@mrofi](https://github.com/mrofi) [@captainspain](https://github.com/captainspain) [@zeroseed](https://github.com/zeroseed)
 
 # License
 MIT License
