@@ -340,5 +340,8 @@ return [
 ];
 ```
 
+# Authors
+This package was first initialized by @nauvalazhar and maintained by @itskodinger. Then, it became extraordinary by all contributors: @rizalfakhri12 @mrofi @captainspain @zeroseed
+
 # License
 MIT License
