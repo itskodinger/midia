@@ -208,19 +208,79 @@ You can also use the configuration in `.midia()`. The following is the default c
 ```javascript
 {
 	title: 'Midia',
+    identifier: 'fullname', // file attribute that used as identifier
 	inline: false, // if you want to open the media manager as an inline element
 	base_url: '', // base url of your project
 	file_name: '', // set to 'url' if you want to give full URL when choosing file,
 	directory_name = '', // set with the existing key in the `config/midia.php` file in the 'directories' key. For example: 'mydocuments'
-	data_target: 'input', // selector attribute for target file input
-	data_preview: 'preview', // selector attribute for target file preview
-	csrf_field: $("meta[name='csrf-token']").attr('content'), // your CSRF field
-	dropzone: {}, // you can provide other dropzone options
-	onOpen: function() {}, // method when the media manager will be opened
-	onOpened: function() {}, // method when the media manager is opened
-	onClose: function() {}, // method when the media manager is closed
-	onChoose: function() {} // method when the media manager choose File
+    data_target: 'input', // selector attribute for target file input
+    data_preview: 'preview', // selector attribute for target file preview
+    csrf_field: $("meta[name='csrf-token']").attr('content'), // your CSRF field
+    dropzone: {}, // you can provide other dropzone options
+    onOpen: function() {}, // method when the media manager will be opened
+    onOpened: function() {}, // method when the media manager is opened
+    onClose: function() {}, // method when the media manager is closed
+    onChoose: function() {} // method when the media manager choose File
+    actions: ['copy_url', 'download', 'rename', 'delete'], // pick actions you want available in selected file
+    can_choose: true, // if you want to hide 'pick' button, set it false,
+    customLoadUrl: null, // if you want to use your custom url to load the files => function (limit, key) { ... } 
+    customUploadUrl: null, // if you want to use your custom url to upload the files => function () { ... }
+    customRenameUrl: null, // if you want to use your custom url to rename the file => function (file) { ... }
+    customDeleteUrl: null, // if you want to use your custom url to delete the file => function (file) { ... }
+    load_ajax_type: 'get', // default ajax type to fetch files is 'get', you can change with 'post' http method
 }
+```
+or you can use data-attributes to change the settings, use `data-midia` followed by your setting attributes, i.e. `data-midia-your_setting_want_to_change` :
+```html
+    <div data-midia data-midia-title="Inline Midia" data-midia-inline="true" data-midia-actions='["rename","delete"]' data-midia-can_choose="false"></div>
+```
+
+# Override Default Settings
+You can override default settings for all instances by add following code before creating instance :
+```javascript
+$.fn.midia.defaultSettings.name_of_setting = 'new value'; 
+
+// Example :
+$.fn.midia.defaultSettings.title = 'Midia Manager';
+$.fn.midia.defaultSettings.base_url = '/';
+```
+
+# Setter
+
+You can also change to settings on the fly but you have to refresh after that :
+```javascript
+    var midiaObj = $(".midia-toggle").midia();
+    midiaObj.midia('title', 'New Title').midia('refresh');
+    // or
+    midiaObj.midia({title: 'New Title'}).midia('refresh');
+```
+
+# Getter
+You can get the the value from this following Midia Attributes :
+- el : get the dom elements
+- settings : get the settings 
+- value : get the value, after you pick a file
+
+with this way :
+```javascript
+    var midiaObj = $(".midia-toggle").midia();
+    midiaObj.midia('el');
+    midiaObj.midia('settings');
+    midiaObj.midia('value');
+```
+
+# Methods
+Midia has this following methods :
+- refresh : refresh your midia, including empty the value, and implement the settings you change before.
+- open : open the midia dialog modal
+- close : close the midia dialog modal
+
+with this way :
+```javascript
+    var midiaObj = $(".midia-toggle").midia();
+    midiaObj.midia('refresh');
+    midiaObj.midia('open');
+    midiaObj.midia('close');
 ```
 
 # Open The File
