@@ -16,6 +16,7 @@ Simple media manager for your Laravel project. This package lets you open your f
 - More ...
 
 # Todo List
+- [ ] Multiple images selection
 - [ ] Multi language
 - [ ] Multi user
 - [ ] UI improvement
