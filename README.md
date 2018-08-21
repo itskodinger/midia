@@ -211,14 +211,16 @@ If you successfully integrate with other editors, then you can either create `is
 You can also use the configuration in `.midia()`. The following is the default configuration:
 ```javascript
 {
-	title: 'Midia',
+    title: 'Midia',
     identifier: 'fullname', // file attribute that used as identifier
-	inline: false, // if you want to open the media manager as an inline element
-	base_url: '', // base url of your project
-	file_name: '', // set to 'url' if you want to give full URL when choosing file,
-	directory_name = '', // set with the existing key in the `config/midia.php` file in the 'directories' key. For example: 'mydocuments'
+    inline: false, // if you want to open the media manager as an inline element
+    base_url: '', // base url of your project
+    file_name: '', // set to 'url' if you want to give full URL when choosing file,
+    directory_name = '', // set with the existing key in the `config/midia.php` file in the 'directories' key. For example: 'mydocuments'
     data_target: 'input', // selector attribute for target file input
     data_preview: 'preview', // selector attribute for target file preview
+    initial_value: null, // fill with your initial value for midia,
+    initial_preview: null, // fill with your initial preview for media,
     csrf_field: $("meta[name='csrf-token']").attr('content'), // your CSRF field
     dropzone: {}, // you can provide other dropzone options
     onOpen: function() {}, // method when the media manager will be opened
