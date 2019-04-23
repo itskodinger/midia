@@ -6,12 +6,6 @@ return [
     'directory_name' => 'media',
     'url_prefix' => 'media',
     'prefix' => 'midia',
-
-    // 404
-    '404' => function() {
-    	return abort(404);
-    },
-    
     // Multiple target directories
     'directories' => [
     	// Examples:

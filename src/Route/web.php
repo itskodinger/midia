@@ -37,7 +37,7 @@ Route::group(['prefix' => config('midia.url_prefix', 'media')], function() {
     }
 
 
-    if(!File::exists($path)) return config('midia.404')();
+    if(!File::exists($path)) return abort(404);
 
     $file = File::get($path);
     $type = File::mimeType($path);
