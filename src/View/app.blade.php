@@ -16,11 +16,29 @@
 		<script src="{{asset('vendor/midia/dropzone.js')}}"></script>
 		<script src="{{asset('vendor/midia/midia.js')}}"></script>
 		<script>
-			$("#midia-inline").midia({
+			// default parameters
+			var _options = {
 				inline: true,
 				base_url: '{{url('')}}',
 				editor: '{{$editor}}'
-			});
+            };
+
+			// parsing querystring to object
+            var deparam = function (querystring) {
+                querystring = querystring.substring(querystring.indexOf('?')+1).split('&');
+                var params = {}, pair, d = decodeURIComponent, i;
+                for (i = querystring.length; i > 0;) {
+                    pair = querystring[--i].split('=');
+                    params[d(pair[0])] = d(pair[1]);
+                }
+                return params;
+            };
+
+			// get query params
+            var _qparams = deparam(location.search);
+
+			// initialize inline midia instance
+			$("#midia-inline").midia($.extend(true, {}, _options, _qparams));
 		</script>
 	</body>
 </html>
