@@ -495,12 +495,19 @@
             }
             file += "<div class='midia-name' title='"+item.fullname+"'>"+item.fullname+"</div>";
             file += "<div class='midia-desc'>";
-            file += item.size + ' &nbsp;&bull;&nbsp; ' + item.filetime;
+            file += item.size + ' &nbsp;&bull;&nbsp; ' + this._localizeTime(item.filetime);
             file += "</div>";
             file += "</div>";
             file += "</div>";
 
             return file;
+        },
+
+        _localizeTime: function(time){
+            for(var key in midiaLang.duration){
+                time = time.replace(key, midiaLang.duration[key]);
+            }
+            return time;
         },
 
         _loadFiles: function(success) {

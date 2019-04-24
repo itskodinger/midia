@@ -56,4 +56,21 @@ var midiaLang = {
     "Are you sure you want to cancel this upload?": "Bu yüklemeyi iptal etmek istediğinizden emin misiniz?",
     "Remove file": "Dosyayı Sil",
     "You can not upload any more files.": "Daha fazla dosya yükleyemezsiniz.",
+    "duration": {
+      "years": "yıl",
+      "months": "ay",
+      "weeks": "hafta",
+      "days": "gün",
+      "hours": "saat",
+      "minutes": "dakika",
+      "seconds": "saniye",
+      "just now": "şimdi",
+      "year": "yıl",
+      "month": "ay",
+      "week": "hafta",
+      "day": "gün",
+      "hour": "saat",
+      "minute": "dakika",
+      "second": "saniye"
+    }
   };

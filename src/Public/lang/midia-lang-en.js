@@ -55,5 +55,22 @@ var midiaLang = {
     "Cancel upload": "Cancel upload",
     "Are you sure you want to cancel this upload?": "Are you sure you want to cancel this upload?",
     "Remove file": "Remove file",
-    "You can not upload any more files.": "You can not upload any more files."
+    "You can not upload any more files.": "You can not upload any more files.",
+    "duration": {
+      "years": "years",
+      "months": "months",
+      "weeks": "weeks",
+      "days": "days",
+      "hours": "hours",
+      "minutes": "minutes",
+      "seconds": "seconds",
+      "just now": "just now",
+      "year": "year",
+      "month": "month",
+      "week": "week",
+      "day": "day",
+      "hour": "hour",
+      "minute": "minute",
+      "second": "second"
+    }
   };
