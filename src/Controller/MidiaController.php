@@ -21,7 +21,7 @@ class MidiaController extends Controller {
 
         if(isset($directoryName)) {
             $currentDirectory = config('midia.directories.' . $directoryName, null);
-    
+
             if($currentDirectory == null) {
                 $this->directory = $directoryName;
             }else{
@@ -30,7 +30,7 @@ class MidiaController extends Controller {
             }
         }else{
             $this->directory = config('midia.directory');
-            $this->directory_name = config('midia.directory_name');            
+            $this->directory_name = config('midia.directory_name');
         }
 
         if($this->url_prefix == $this->directory_name) {
@@ -55,7 +55,8 @@ class MidiaController extends Controller {
         $q = request()->key;
 
         if(!is_dir($dir)) {
-            return response(['data' => 'Directory \''. $dir .'\' can\'t be found'], 404);
+            // create directory if not found
+            mkdir($dir);
         }
 
         $exec = scandir($dir);
@@ -144,8 +145,8 @@ class MidiaController extends Controller {
         // Resize
         $is_image = [
             'image/jpg',
-            'image/png', 
-            'image/gif', 
+            'image/png',
+            'image/gif',
             'image/webp'
         ];
         if(in_array(mime_content_type($this->directory . '/' . $fileName), $is_image)) {
@@ -160,7 +161,7 @@ class MidiaController extends Controller {
         foreach($thumbs as $thumb) {
             $thumb_folder = 'thumbs-' . $thumb;
 
-            if(!is_dir($this->directory . '/' . $thumb_folder)) 
+            if(!is_dir($this->directory . '/' . $thumb_folder))
                 mkdir($this->directory . '/' . $thumb_folder);
 
             $image = Image::make($this->directory . '/' . $fileName);

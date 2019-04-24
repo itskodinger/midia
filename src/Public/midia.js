@@ -78,6 +78,7 @@
         title: 'Midia', // modal title
         identifier: 'fullname', // file attribute that used as identifier
         inline: false, // inline mode
+        locale: 'en',
         editor: false, // editor mode
         base_url: '', // base url
         file_name: 'url', // get return as 'url', you can fill with other file attributes, ie.'fullname' or 'name'
@@ -110,7 +111,7 @@
         return this;
     }
 
-    Midia.prototype = 
+    Midia.prototype =
     {
         refresh: function () {
             if (this.id) {
@@ -149,69 +150,69 @@
             element += '            <h4>'+options.title+'</h4>';
             element += '        </div>';
             element += '        <div class="midia-nav">';
-            element += '            <a href="#midia-page-upload">Upload</a>';
-            element += '            <a href="#midia-page-loader" class="active">All Files</a>';
-            element += '            <a href="#midia-page-help">Help</a>';
-            element += '            <a href="#midia-page-about">About</a>';
+            element += '            <a href="#midia-page-upload">'+midiaLang['Upload']+'</a>';
+            element += '            <a href="#midia-page-loader" class="active">'+midiaLang['All Files']+'</a>';
+            element += '            <a href="#midia-page-help">'+midiaLang["Help"]+'</a>';
+            element += '            <a href="#midia-page-about">'+midiaLang["About"]+'</a>';
             element += '        </div>';
             element += '        <div class="midia-nav-right">';
-            element += '            <a class="midia-tool" id="midia-reload" title="Refresh File List">&#8635;</a>';
-            element += '            <input type="text" id="midia-search" class="midia-input" placeholder="Search and hit Enter (Escape to clear)">';
+            element += '            <a class="midia-tool" id="midia-reload" title="'+midiaLang["Refresh File List"]+'">&#8635;</a>';
+            element += '            <input type="text" id="midia-search" class="midia-input" placeholder="'+midiaLang["Search and hit Enter (Escape to clear)"]+'">';
             element += '        </div>';
             element += '    </div>';
             element += '    <div class="midia-body">';
             element += '        <div class="midia-page midia-upload" id="midia-page-upload">';
-            element += '            <h4>Upload</h4>';
-            element += '            <div class="midia-p">You can upload all file types with maximum size of '+ options.dropzone.maxFilesize +' MB.</div>';
+            element += '            <h4>'+midiaLang["Upload"]+'</h4>';
+            element += '            <div class="midia-p">' + midiaLang["You can upload all file types with maximum size of :filesize MB."].replace(":filesize", options.dropzone.maxFilesize) + '</div>';
             element += '            <form class="dropzone" method="post" id="midia-dropzone" enctype="multipart/form-data">';
             element += '            </form>';
             element += '        </div>';
             element += '        <div class="midia-page midia-help" id="midia-page-help">';
-            element += '        <h4>Help</h4>';
-            element += '        <p class="midia-p midia-nolh"><b>Pick File</b></p>';
-            element += '        <p class="midia-p">You can double-click on the media item to select the file or click the "Pick" button.</p>';
+            element += '        <h4>' + midiaLang['Help'] + '</h4>';
+            element += '        <p class="midia-p midia-nolh"><b>'+midiaLang["Pick File"]+'</b></p>';
+            element += '        <p class="midia-p">'+midiaLang['You can double-click on the media item to select the file or click the "Pick" button.']+'</p>';
             element += '        <div class="midia-divider"></div>';
-            element += '        <p class="midia-p midia-nolh"><b>Copy File URL</b></p>';
-            element += '        <p class="midia-p">Hover over the hamburger menu on a media item, click on the "Copy URL" menu to copy the URL of the file.</p>';
+            element += '        <p class="midia-p midia-nolh"><b>'+midiaLang["Copy File URL"]+'</b></p>';
+            element += '        <p class="midia-p">'+midiaLang['Hover over the hamburger menu on a media item, click on the "Copy URL" menu to copy the URL of the file.']+'</p>';
             element += '        <div class="midia-divider"></div>';
-            element += '        <p class="midia-p midia-nolh"><b>Download File</b></p>';
-            element += '        <p class="midia-p">Hover over the hamburger menu on a media item, click on the "Download" menu to download the file.</p>';
+            element += '        <p class="midia-p midia-nolh"><b>'+midiaLang["Download File"]+'</b></p>';
+            element += '        <p class="midia-p">'+midiaLang["Hover over the hamburger menu on a media item, click on the \"Download\" menu to download the file."]+'</p>';
             element += '        <div class="midia-divider"></div>';
-            element += '        <p class="midia-p midia-nolh"><b>Rename File</b></p>';
-            element += '        <p class="midia-p">Hover over the hamburger menu on a media item, click on the "Rename" menu and enter the new file name and hit enter.</p>';
+            element += '        <p class="midia-p midia-nolh"><b>'+midiaLang["Rename File"]+'</b></p>';
+            element += '        <p class="midia-p">'+midiaLang["Hover over the hamburger menu on a media item, click on the \"Rename\" menu and enter the new file name and hit enter."]+'</p>';
             element += '        <div class="midia-divider"></div>';
-            element += '        <p class="midia-p midia-nolh"><b>Delete File</b></p>';
-            element += '        <p class="midia-p">Hover over the hamburger menu on a media item, click on the "Delete" menu and click "OK" button to delete the file. The deleted file <b>CANNOT</b> be returned, because it has been permanently deleted, think twice before doing this action.</p>';
+            element += '        <p class="midia-p midia-nolh"><b>'+midiaLang["Delete File"]+'</b></p>';
+            element += '        <p class="midia-p">'+midiaLang["Hover over the hamburger menu on a media item, click on the \"Delete\" menu and click \"OK\" button to delete the file. The deleted file <b>CANNOT</b> be returned, because it has been permanently deleted, think twice before doing this action."]+'</p>';
             element += '        <div class="midia-divider"></div>';
-            element += '        <p class="midia-p midia-nolh"><b>Refresh File List</b></p>';
-            element += '        <p class="midia-p">You will need to refresh the list of files after uploading or notice changes to the file to make the data file up to date. To refresh the file list, click on the button with the "&#8635;" icon.</p>';
+            element += '        <p class="midia-p midia-nolh"><b>'+midiaLang["Refresh File List"]+'</b></p>';
+            element += '        <p class="midia-p">'+midiaLang["You will need to refresh the list of files after uploading or notice changes to the file to make the data file up to date. To refresh the file list, click on the button with the \"&#8635;\" icon."]+'</p>';
             element += '        <div class="midia-divider"></div>';
-            element += '        <p class="midia-p midia-nolh"><b>Upload File</b></p>';
-            element += '        <p class="midia-p">Uploading files is very easy, click "Upload" in the navigation, then drag the file you want to upload into the box or click the upload box and select the file you want to upload. You can upload more than one file at a time.</p>';
+            element += '        <p class="midia-p midia-nolh"><b>'+midiaLang["Upload File"]+'</b></p>';
+            element += '        <p class="midia-p">'+midiaLang["Uploading files is very easy, click \"Upload\" in the navigation, then drag the file you want to upload into the box or click the upload box and select the file you want to upload. You can upload more than one file at a time."]+'</p>';
             element += '        <div class="midia-divider"></div>';
-            element += '        <p class="midia-p midia-nolh"><b>Search File</b></p>';
-            element += '        <p class="midia-p">To find the file you want, click on the search box and enter your keyword, then hit enter. You can search for files with an extension type, e.g. ".jpg" or something else.</p>';
+            element += '        <p class="midia-p midia-nolh"><b>'+midiaLang["Search File"]+'</b></p>';
+            element += '        <p class="midia-p">'+midiaLang["To find the file you want, click on the search box and enter your keyword, then hit enter. You can search for files with an extension type, e.g. \".jpg\" or something else."]+'</p>';
             element += '        </div>';
             element += '        <div class="midia-page" id="midia-page-about">';
-            element += '            <h4>About Midia</h4>';
+            element += '            <h4>'+midiaLang["About Midia"]+'</h4>';
             element += '            <div class="midia-p">';
-            element += '            <a href="https://github.com/itskodinger/midia" target="_blank">Midia</a> is a simple media manager for your Laravel project. This package lets you open your files as inline modal. All directories in the folder will be ignored. In other words, can only read the file.';
+            element += '            '+midiaLang["<a href=\"https://github.com/itskodinger/midia\" target=\"_blank\">Midia</a> is a simple media manager for your Laravel project. This package lets you open your files as inline modal. All directories in the folder will be ignored. In other words, can only read the file."]+'';
             element += '            </div>';
-            element += '            <div class="midia-p">There is no special reason why Midia was created. Just one thing to know, Midia was created to make it easier for non-technical users to manage their files with a good UX. (Though, the creator doesn\'t really understand UX well)</div>';
+            element += '            <div class="midia-p">'+midiaLang["There is no special reason why Midia was created. Just one thing to know, Midia was created to make it easier for non-technical users to manage their files with a good UX. (Though, the creator doesn\'t really understand UX well)"]+'</div>';
             element += '            <div class="midia-divider"></div>';
-            element += '            <div class="midia-p midia-nolh"><b>Meet the creators</b></div>';
-            element += '            <div class="midia-p">The first time, Midia was created by <a target="_blank" href="https://github.com/nauvalazhar">Muhamad Nauval Azhar</a> then became better by the <a target="_blank" href="https://github.com/itskodinger/midia/graphs/contributors">contributors</a>. Thank all contributors.</div>';
+            element += '            <div class="midia-p midia-nolh"><b>'+midiaLang["Meet the creators"]+'</b></div>';
+            element += '            <div class="midia-p">'+midiaLang["The first time, Midia was created by <a target=\"_blank\" href=\"https://github.com/nauvalazhar\">Muhamad Nauval Azhar</a> then became better by the <a target=\"_blank\" href=\"https://github.com/itskodinger/midia/graphs/contributors\">contributors</a>. Thank all contributors."]+'</div>';
             element += '            <div class="midia-divider"></div>';
-            element += '            <div class="midia-p midia-nolh"><b>Supported By</b></div>';
+            element += '            <div class="midia-p midia-nolh"><b>'+midiaLang["Supported By"]+'</b></div>';
             element += '            <div class="midia-p midia-supporter"><a href="https://multinity.com" target="_blank"><img src="https://multinity.com/public/main/img/multinity-logo.png" alt="Multinity"></a><a href="https://kodinger.com" target="_blank"><img src="https://avatars0.githubusercontent.com/u/35509766?s=460&v=4" alt="Kodinger"></a></div>';
             element += '        </div>';
             element += '        <div class="midia-page midia-loader" id="midia-page-loader">';
-            element += '            <h4>All Files</h4>';
+            element += '            <h4>'+midiaLang["All Files"]+'</h4>';
             element += '            <div class="midia-message">';
             element += '            </div>';
             element += '            <div class="midia-files-outer"><div id="midia-files-loader" class="midia-files">';
             element += '            </div></div>';
-            element += '            <div class="midia-outer-loadmore"><div class="midia-btn midia-btn-primary" id="midia-loadmore">Load More</div></div>';
+            element += '            <div class="midia-outer-loadmore"><div class="midia-btn midia-btn-primary" id="midia-loadmore">'+midiaLang["Load More"]+'</div></div>';
             element += '        </div>';
             element += '    </div>';
             element += '</div>';
@@ -224,20 +225,20 @@
 
         _actions: {
             copy_url: function (item) {
-                return "<div class='midia-option midia-copy-url' data-clipboard-text='"+item.url+"'>Copy URL</div>";
+                return "<div class='midia-option midia-copy-url' data-clipboard-text='"+item.url+"'>"+midiaLang["Copy URL"]+"</div>";
             },
 
             download: function (item) {
-                return "<a href='"+item.url+"' class='midia-option' download>Download</a>";
+                return "<a href='"+item.url+"' class='midia-option' download>"+midiaLang["Download"]+"</a>";
             },
 
             rename: function (item) {
-                return "<div class='midia-option midia-rename'>Rename</div>";
+                return "<div class='midia-option midia-rename'>"+midiaLang["Rename"]+"</div>";
             },
 
             delete: function (item) {
                 return "<div class='midia-option midia-option-divider'></div>"
-                       + "<div class='midia-option midia-option-danger midia-delete'>Delete</div>"
+                       + "<div class='midia-option midia-option-danger midia-delete'>"+midiaLang["Delete"]+"</div>"
                        + "<div class='midia-option midia-option-divider'></div>";
             }
         },
@@ -256,6 +257,25 @@
 
             this.id = id;
 
+            $.ajax({
+                url: this.settings.base_url + "/vendor/midia/lang/midia-lang-" + this.settings.locale + ".js",
+                dataType: 'script',
+                async: false
+            });
+
+            var dropzone_language_strings = {
+                dictDefaultMessage: midiaLang["Drop files here to upload"],
+                dictFallbackMessage: midiaLang["Your browser does not support drag'n'drop file uploads."],
+                dictFallbackText: midiaLang["Please use the fallback form below to upload your files like in the olden days."],
+                dictFileTooBig: midiaLang["File is too big ({{filesize}}MiB). Max filesize: {{maxFilesize}}MiB."],
+                dictInvalidFileType: midiaLang["You can't upload files of this type."],
+                dictResponseError: midiaLang["Server responded with {{statusCode}} code."],
+                dictCancelUpload: midiaLang["Cancel upload"],
+                dictCancelUploadConfirmation: midiaLang["Are you sure you want to cancel this upload?"],
+                dictRemoveFile: midiaLang["Remove file"],
+                dictMaxFilesExceeded: midiaLang["You can not upload any more files."]
+            };
+
             var default_dropzone_options = options.dropzone;
             if(typeof default_dropzone_options.url !== 'undefined') {
                 delete default_dropzone_options.url;
@@ -273,12 +293,12 @@
                     'X-CSRF-TOKEN': options.csrf_field
                 },
                 maxFilesize: 2
-            }, default_dropzone_options);
+            }, default_dropzone_options, dropzone_language_strings);
 
             let clipboard = new ClipboardJS('.midia-copy-url');
             clipboard.on('success', function(e) {
                 let first_text = $(e.trigger).html();
-                $(e.trigger).html('Copied!');
+                $(e.trigger).html(midiaLang['Copied!']);
                 setTimeout(function() {
                     $(e.trigger).html(first_text);
                 }, 1500);
@@ -317,7 +337,7 @@
                     if($search.val().trim().length > 0) {
                         midia._reset();
                     }else{
-                        $search.attr('placeholder', 'Please enter at least 1 word');
+                        $search.attr('placeholder', midiaLang['Please enter at least 1 word']);
                     }
                 }
 
@@ -351,9 +371,9 @@
             $(document).on("click", myid + " #midia-loadmore", function() {
                 let loader = $(this);
 
-                loader.addClass('midia-disabled').text('Working');
+                loader.addClass('midia-disabled').text(midiaLang['Working']);
                 midia._loadFiles(function() {
-                    loader.removeClass('midia-disabled').text('Load More');
+                    loader.removeClass('midia-disabled').text(midiaLang['Load More']);
                 });
             });
 
@@ -441,7 +461,7 @@
         },
 
         _setCounter: function (showing, totalFiles) {
-            this._messageInfo('Showing ' + showing + " of " + totalFiles + ' file' + (totalFiles === 1 ? '' : 's')+'.');
+            this._messageInfo(midiaLang['Showing :count of :total file:s.'].replace(":count", showing).replace(":total", totalFiles).replace(":s", totalFiles === 1 ? '' : 's'));
         },
 
         _createFileElement: function (item) {
@@ -453,7 +473,7 @@
             if (options.actions.length) {
                 file += "<div class='midia-options-toggle'>&#9776;</div>";
                 file += "<div class='midia-options'>";
-                file += "<div class='midia-option'><strong>Options</strong> : </div>";
+                file += "<div class='midia-option'><strong>"+midiaLang["Options"]+"</strong> : </div>";
                 $.each(options.actions, function (index, action) {
                     if (midia._actions[action] !== undefined) {
                         file += midia._actions[action](item);
@@ -464,7 +484,7 @@
             file += "</div>";
             if (options.can_choose) {
                 file += "<div class='midia-floating'>";
-                file += "<a class='midia-btn midia-btn-colored midia-btn-shadow midia-pick'>Pick</a>";
+                file += "<a class='midia-btn midia-btn-colored midia-btn-shadow midia-pick'>"+midiaLang["Pick"]+"</a>";
                 file += "</div>";
             }
             file += "<div class='midia-item-inner"+(options.inline != true || (options.inline == true && options.editor != false) ? ' midia-choose' : '')+"'>";
@@ -475,12 +495,19 @@
             }
             file += "<div class='midia-name' title='"+item.fullname+"'>"+item.fullname+"</div>";
             file += "<div class='midia-desc'>";
-            file += item.size + ' &nbsp;&bull;&nbsp; ' + item.filetime;
+            file += item.size + ' &nbsp;&bull;&nbsp; ' + this._localizeTime(item.filetime);
             file += "</div>";
             file += "</div>";
             file += "</div>";
 
             return file;
+        },
+
+        _localizeTime: function(time){
+            for(var key in midiaLang.duration){
+                time = time.replace(key, midiaLang.duration[key]);
+            }
+            return time;
         },
 
         _loadFiles: function(success) {
@@ -501,15 +528,15 @@
                     'X-CSRF-TOKEN': options.csrf_field
                 },
                 beforeSend: function() {
-                    $(myid + " .midia-files").append('<div class="midia-loading"><img src="'+options.base_url+'/vendor/midia/spinner.svg"><div>Please wait</div></div>');
+                    $(myid + " .midia-files").append('<div class="midia-loading"><img src="'+options.base_url+'/vendor/midia/spinner.svg"><div>'+midiaLang["Please wait"]+'</div></div>');
                     $(myid + " #midia-loadmore").hide();
                     if(key) {
                         $(myid + " #midia-search").attr('disabled', true);
                     }
                 },
                 error: function(xhr) {
-                    $(myid + " .midia-message").html('Error');
-                    midia._messageOnContainer('<div class=\'midia-notfound\'>ERROR: ' + xhr.status + ' - ' + xhr.responseJSON.data + '</div>');
+                    $(myid + " .midia-message").html(midiaLang['Error']);
+                    midia._messageOnContainer('<div class=\'midia-notfound\'>' + midiaLang["ERROR: "] + xhr.status + ' - ' + xhr.responseJSON.data + '</div>');
                 },
                 complete: function() {
                     $(myid + " .midia-loading").remove();
@@ -526,18 +553,18 @@
                     midia._setCounter(showing, totalFiles);
 
                     if(data.total_all == 0) {
-                        midia._messageOnContainer("<div class='midia-notfound'>Your directory is empty</div>");
+                        midia._messageOnContainer("<div class='midia-notfound'>"+midiaLang["Your directory is empty"]+"</div>");
                     }
 
                     if(midia.totalLoadLimit == 0 && data.total_all > 0 && data.files.length == 0) {
-                        midia._messageOnContainer("<div class='midia-notfound'>Whoops, file with name <i>'"+key+"'</i> couldn't be found</div>");
+                        midia._messageOnContainer("<div class='midia-notfound'>"+midiaLang["Whoops, file with name <i>:key</i> couldn't be found"].replace(":key", key) + "</div>");
                     }
 
                     if(success) {
                         success.call(this);
                     }
                     if(data.files.length == 0 && limit == 0) {
-                        $(myid + " .midia-files-loader").append("<div class='midia-p'>Directory is Empty</div>")
+                        $(myid + " .midia-files-loader").append("<div class='midia-p'>"+midiaLang["Directory is Empty"]+"</div>")
                     }
 
                     if(!data.files.length) {
@@ -604,7 +631,7 @@
                     myid = '#' + id,
                     options = this.settings;
 
-                let rename = prompt('Rename this file to:', file.data('file').name);
+                let rename = prompt(midiaLang['Rename this file to:'], file.data('file').name);
                 if(rename && rename !== file.data('file').name) {
                     $.ajax({
                         url: midia._createRenameUrl(file.data('file')[options.identifier]),
@@ -622,7 +649,7 @@
                             $(myid + " .midia-delete").addClass('midia-disabled');
                         },
                         error: function(xhr) {
-                            alert('ERROR: ' + xhr.status + ' - ' + xhr.responseText);
+                            alert(midiaLang['ERROR: '] + xhr.status + ' - ' + xhr.responseText);
                         },
                         complete: function() {
                             file.removeClass('midia-doload');
@@ -751,7 +778,7 @@
                 id = this.id,
                 myid = '#' + id,
                 options = this.settings,
-                ask = confirm('File will be deleted and this action can\'t be undone, do you want to continue?');
+                ask = confirm(midiaLang['File will be deleted and this action can\'t be undone, do you want to continue?']);
 
             if(ask) {
                 $.ajax({
@@ -767,11 +794,11 @@
                         $(myid + " .midia-delete").html('Deleting');
                     },
                     error: function(xhr) {
-                        alert('ERROR: ' + xhr.status + ' - ' + xhr.responseText);
+                        alert(midiaLang['ERROR: '] + xhr.status + ' - ' + xhr.responseText);
                     },
                     complete: function() {
                         $(myid + " .midia-delete").removeClass('midia-disabled');
-                        $(myid + " .midia-delete").html('Delete');
+                        $(myid + " .midia-delete").html(midiaLang['Delete']);
                     },
                     success: function(data) {
                         file.closest(myid + ' .midia-item').remove();
@@ -795,7 +822,7 @@
 
                 this._setCounter(showing, totalFiles);
                 if(showing == 0 && totalFiles == 0) {
-                    this._messageOnContainer("<div class='midia-notfound'>Your directory is empty</div>");
+                    this._messageOnContainer("<div class='midia-notfound'>" + midiaLang["Your directory is empty"] + "</div>");
                 }
             }
         },

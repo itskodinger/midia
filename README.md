@@ -32,16 +32,16 @@ Simple media manager for your Laravel project. This package lets you open your f
 # Tested
 - [ ] Laravel 5.6
 - [x] Laravel 5.5
-- [x] Laravel 5.4 
-- [ ] Laravel 5.3 
-- [ ] Laravel 5.2 
-- [ ] Laravel 5.1 
-- [ ] Laravel 5.0 
+- [x] Laravel 5.4
+- [ ] Laravel 5.3
+- [ ] Laravel 5.2
+- [ ] Laravel 5.1
+- [ ] Laravel 5.0
 
 # Installation
 Now, this package is available for production. You can install this package using these steps.
 
-1. Install through Composer  
+1. Install through Composer
 ```
 composer require itskodinger/midia
 ```
@@ -134,24 +134,25 @@ If you successfully integrate with other editors, then you can either create `is
 <script>
     var midia = function(options, cb) {
         var route_prefix = (options && options.prefix) ? options.prefix : '/midia';
-        window.open(route_prefix + '?type=' + options.type || 'file', 'Midia', 'width=900,height=600');
+        if(options && options.prefix) delete options.prefix;
+        window.open(route_prefix + "?" + $.param(options) || 'file', 'Midia', 'width=900,height=600');
         window.SetUrl = cb;
     };
-    
+
     var MButton = function(context) {
         var ui = $.summernote.ui;
         var button = ui.button({
             contents: '<i class="note-icon-picture"></i> ',
             tooltip: 'Insert image with filemanager',
             click: function() {
-                midia({type: 'image', prefix: '/midia/open/summernote'}, function(url, path) {
+                midia({type: 'image', prefix: '/midia/open/summernote', title: 'Midia Library', locale: 'en'}, function(url, path) {
                     context.invoke('insertImage', url);
                 });
             }
         });
         return button.render();
     };
-    
+
     $('.summernote').summernote({
         minHeight: 150,
         toolbar: [
@@ -214,6 +215,7 @@ You can also use the configuration in `.midia()`. The following is the default c
     title: 'Midia',
     identifier: 'fullname', // file attribute that used as identifier
     inline: false, // if you want to open the media manager as an inline element
+    locale: 'en', // locale for the plugin (note: `lang/midia-lang-[locale].js` file should exist)
     base_url: '', // base url of your project
     file_name: '', // set to 'url' if you want to give full URL when choosing file,
     directory_name = '', // set with the existing key in the `config/midia.php` file in the 'directories' key. For example: 'mydocuments'
@@ -229,7 +231,7 @@ You can also use the configuration in `.midia()`. The following is the default c
     onChoose: function() {} // method when the media manager choose File
     actions: ['copy_url', 'download', 'rename', 'delete'], // pick actions you want available in selected file
     can_choose: true, // if you want to hide 'pick' button, set it false,
-    customLoadUrl: null, // if you want to use your custom url to load the files => function (limit, key) { ... } 
+    customLoadUrl: null, // if you want to use your custom url to load the files => function (limit, key) { ... }
     customUploadUrl: null, // if you want to use your custom url to upload the files => function () { ... }
     customRenameUrl: null, // if you want to use your custom url to rename the file => function (file) { ... }
     customDeleteUrl: null, // if you want to use your custom url to delete the file => function (file) { ... }
@@ -244,7 +246,7 @@ or you can use data-attributes to change the settings, use `data-midia` followed
 # Override Default Settings
 You can override default settings for all instances by add following code before creating instance:
 ```javascript
-$.fn.midia.defaultSettings.name_of_setting = 'new value'; 
+$.fn.midia.defaultSettings.name_of_setting = 'new value';
 
 // Example:
 $.fn.midia.defaultSettings.title = 'Midia Manager';
@@ -263,7 +265,7 @@ You can also change to settings on the fly but you have to refresh after that:
 # Getter
 You can get the the value from this following Midia Attributes:
 - el: get the dom elements
-- settings: get the settings 
+- settings: get the settings
 - value: get the value, after you pick a file
 
 with this way:
@@ -325,7 +327,7 @@ return [
     '404' => function() {
     	return abort(404);
     },
-    
+
     // Multiple target directories
     'directories' => [
     	// Examples:
@@ -341,7 +343,7 @@ return [
     ],
 
     // Thumbnail size will be generated
-	'thumbs' => [100, /*80, 100*/],
+	'thumbs' => [100/*, 80, 100*/],
 ];
 ```
 

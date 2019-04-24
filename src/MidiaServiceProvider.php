@@ -20,6 +20,7 @@ class MidiaServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__ . '/Config/midia.php' => config_path('midia.php'),
+            __DIR__ . '/Public/lang' => public_path('vendor/midia/lang'),
             __DIR__ . '/Public/clipboard.js' => public_path('vendor/midia/clipboard.js'),
             __DIR__ . '/Public/midia.js' => public_path('vendor/midia/midia.js'),
             __DIR__ . '/Public/midia.css' => public_path('vendor/midia/midia.css'),
