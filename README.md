@@ -343,7 +343,7 @@ return [
     ],
 
     // Thumbnail size will be generated
-	'thumbs' => [100, /*80, 100*/],
+	'thumbs' => [100/*, 80, 100*/],
 ];
 ```
 
