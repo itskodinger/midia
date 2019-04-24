@@ -263,6 +263,19 @@
                 async: false
             });
 
+            var dropzone_language_strings = {
+                dictDefaultMessage: midiaLang["Drop files here to upload"],
+                dictFallbackMessage: midiaLang["Your browser does not support drag'n'drop file uploads."],
+                dictFallbackText: midiaLang["Please use the fallback form below to upload your files like in the olden days."],
+                dictFileTooBig: midiaLang["File is too big ({{filesize}}MiB). Max filesize: {{maxFilesize}}MiB."],
+                dictInvalidFileType: midiaLang["You can't upload files of this type."],
+                dictResponseError: midiaLang["Server responded with {{statusCode}} code."],
+                dictCancelUpload: midiaLang["Cancel upload"],
+                dictCancelUploadConfirmation: midiaLang["Are you sure you want to cancel this upload?"],
+                dictRemoveFile: midiaLang["Remove file"],
+                dictMaxFilesExceeded: midiaLang["You can not upload any more files."]
+            };
+
             var default_dropzone_options = options.dropzone;
             if(typeof default_dropzone_options.url !== 'undefined') {
                 delete default_dropzone_options.url;
@@ -280,7 +293,7 @@
                     'X-CSRF-TOKEN': options.csrf_field
                 },
                 maxFilesize: 2
-            }, default_dropzone_options);
+            }, default_dropzone_options, dropzone_language_strings);
 
             let clipboard = new ClipboardJS('.midia-copy-url');
             clipboard.on('success', function(e) {
@@ -448,7 +461,7 @@
         },
 
         _setCounter: function (showing, totalFiles) {
-            this._messageInfo(midiaLang['Showing :count of :total file:s.'].replace(":count", showing).replace(":total"+ totalFiles).replace(":s", totalFiles === 1 ? '' : 's'));
+            this._messageInfo(midiaLang['Showing :count of :total file:s.'].replace(":count", showing).replace(":total", totalFiles).replace(":s", totalFiles === 1 ? '' : 's'));
         },
 
         _createFileElement: function (item) {
@@ -611,7 +624,7 @@
                     myid = '#' + id,
                     options = this.settings;
 
-                let rename = prompt('Rename this file to:', file.data('file').name);
+                let rename = prompt(midiaLang['Rename this file to:'], file.data('file').name);
                 if(rename && rename !== file.data('file').name) {
                     $.ajax({
                         url: midia._createRenameUrl(file.data('file')[options.identifier]),

@@ -33,6 +33,7 @@ var midiaLang = {
     "Rename": "Rename",
     "Delete": "Delete",
     "Copied!": "Copied!",
+    "Rename this file to:": "Rename this file to:",
     "Please enter at least 1 word": "Please enter at least 1 word",
     "Working": "Working",
     "Showing :count of :total file:s.": "Showing :count of :total file:s.",
@@ -44,5 +45,15 @@ var midiaLang = {
     "Whoops, file with name <i>:key</i> couldn't be found": "Whoops, file with name <i>:key</i> couldn't be found",
     "Directory is Empty": "Directory is Empty",
     "File will be deleted and this action can't be undone, do you want to continue?": "File will be deleted and this action can't be undone, do you want to continue?",
-    "ERROR: ": "ERROR: "
+    "ERROR: ": "ERROR: ",
+    "Drop files here to upload": "Drop files here to upload",
+    "Your browser does not support drag'n'drop file uploads.": "Your browser does not support drag'n'drop file uploads.",
+    "Please use the fallback form below to upload your files like in the olden days.": "Please use the fallback form below to upload your files like in the olden days.",
+    "File is too big ({{filesize}}MiB). Max filesize: {{maxFilesize}}MiB.": "File is too big ({{filesize}}MiB). Max filesize: {{maxFilesize}}MiB.",
+    "You can't upload files of this type.": "You can't upload files of this type.",
+    "Server responded with {{statusCode}} code.": "Server responded with {{statusCode}} code.",
+    "Cancel upload": "Cancel upload",
+    "Are you sure you want to cancel this upload?": "Are you sure you want to cancel this upload?",
+    "Remove file": "Remove file",
+    "You can not upload any more files.": "You can not upload any more files."
   };
