@@ -145,9 +145,13 @@ class MidiaController extends Controller {
         // Resize
         $is_image = [
             'image/jpg',
+            'image/jpeg',
+            'image/pjpeg',
             'image/png',
+            'image/x-png',
             'image/gif',
-            'image/webp'
+            'image/webp',
+            'image/x-webp'
         ];
         if(in_array(mime_content_type($this->directory . '/' . $fileName), $is_image)) {
             $this->_resize($fileName);
