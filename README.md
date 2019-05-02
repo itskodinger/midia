@@ -30,6 +30,7 @@ Simple media manager for your Laravel project. This package lets you open your f
 - Laravel 5
 
 # Tested
+- [x] Laravel 5.7
 - [ ] Laravel 5.6
 - [x] Laravel 5.5
 - [x] Laravel 5.4
