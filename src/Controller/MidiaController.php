@@ -79,6 +79,8 @@ class MidiaController extends Controller {
         $_files = [];
         foreach($exec as $i => $item) {
             if(!is_dir($this->directory . '/' . $item)) {
+                $this->_resize($item);
+
                 $_files[$i]['fullname'] = $item;
                 $_files[$i]['name'] = pathinfo($item, PATHINFO_FILENAME);
                 $_files[$i]['url'] = $this->url($this->directory_name . '/' . $item);
@@ -168,9 +170,14 @@ class MidiaController extends Controller {
             if(!is_dir($this->directory . '/' . $thumb_folder))
                 mkdir($this->directory . '/' . $thumb_folder);
 
-            $image = Image::make($this->directory . '/' . $fileName);
+            $file = $this->directory . '/' . $fileName;
+            $thumb_file = $this->directory . '/' . $thumb_folder . '/' . $fileName;
+
+            if(file_exists($thumb_file)) continue;
+
+            $image = Image::make($file);
             $image->fit($thumb);
-            $image->save($this->directory . '/' . $thumb_folder . '/' . $fileName);
+            $image->save($thumb_file);
         }
     }
 
