@@ -11,6 +11,7 @@ class MidiaController extends Controller {
     protected $directory_name;
     protected $url_prefix;
     protected $thumbs, $default_thumb;
+    protected $imageTypes;
 
     public function __construct() {
         $this->url_prefix = config('midia.url_prefix');
@@ -44,6 +45,17 @@ class MidiaController extends Controller {
         if(!in_array(250, $this->thumbs)) $this->thumbs[count($this->thumbs)] = 250;
 
         $this->default_thumb = 'thumbs-250';
+
+        $this->imageTypes = [
+            'image/jpg',
+            'image/jpeg',
+            'image/pjpeg',
+            'image/png',
+            'image/x-png',
+            'image/gif',
+            'image/webp',
+            'image/x-webp'
+        ];
     }
 
     public function url($path='') {
@@ -79,7 +91,8 @@ class MidiaController extends Controller {
         $_files = [];
         foreach($exec as $i => $item) {
             if(!is_dir($this->directory . '/' . $item)) {
-                $this->_resize($item);
+                if(in_array(mime_content_type($this->directory . '/' . $item), $this->imageTypes))
+                    $this->_resize($item);
 
                 $_files[$i]['fullname'] = $item;
                 $_files[$i]['name'] = pathinfo($item, PATHINFO_FILENAME);
@@ -145,17 +158,7 @@ class MidiaController extends Controller {
         $file->move($this->directory, $fileName);
 
         // Resize
-        $is_image = [
-            'image/jpg',
-            'image/jpeg',
-            'image/pjpeg',
-            'image/png',
-            'image/x-png',
-            'image/gif',
-            'image/webp',
-            'image/x-webp'
-        ];
-        if(in_array(mime_content_type($this->directory . '/' . $fileName), $is_image)) {
+        if(in_array(mime_content_type($this->directory . '/' . $fileName), $this->imageTypes)) {
             $this->_resize($fileName);
         }
 
