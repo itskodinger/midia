@@ -37,7 +37,7 @@ if (!function_exists('midia_time_elapsed')) {
      */
     function midia_time_elapsed($datetime, $full=false)
     {
-        $datetime = date('Y-m-d h:i:s', $datetime);
+        $datetime = date('Y-m-d H:i:s', $datetime);
         $now = new DateTime;
         $ago = new DateTime($datetime);
         $diff = $now->diff($ago);
